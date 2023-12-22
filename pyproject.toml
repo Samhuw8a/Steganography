@@ -1,0 +1,36 @@
+[project]
+name = "steganography"  # Required
+
+version = "0.0.1"  # Required
+
+description = "A sample Python project"  # Optional
+
+readme = "README.md" # Optional
+
+requires-python = ">=3.8"
+
+license = {file = "LICENSE.txt"}
+dependencies = [ # Optional
+  "black"
+]
+
+# List additional groups of dependencies here (e.g. development
+# dependencies). Users will be able to install these using the "extras"
+# syntax, for example:
+#
+#   $ pip install sampleproject[dev]
+#
+# Similar to `dependencies` above, these must be valid existing
+# projects.
+[project.optional-dependencies] # Optional
+dev = ["black", "mypy"]
+test = ["pytest", "mypy"]
+
+# This is configuration specific to the `setuptools` build backend.
+# If you are using a different build backend, you will need to change this.
+
+[build-system]
+# These are the assumed default build requirements from pip:
+# https://pip.pypa.io/en/stable/reference/pip/#pep-517-and-518-support
+requires = ["setuptools>=43.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
