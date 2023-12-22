@@ -1,2 +1,1 @@
 # Steganography
-Matura-Arbeits Projekt
