@@ -1,3 +1,4 @@
 bitlist
 numpy
 more_itertools
+Pillow

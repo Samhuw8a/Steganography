@@ -39,3 +39,18 @@ def seperate_rgb_from_alpha(img_pixels: NDArray) -> tuple:
         rgb.append(b)
         alpha.append(a)
     return np.array(rgb), np.array(alpha)
+
+
+def build_bytes_from_pixels(pixels: NDArray, n_lsb: int) -> bytes:
+    bits: str = ""
+    for p in pixels:
+        pb = bitlist(int(p), length=p + n_lsb)
+        bits += pb[-n_lsb:].bin()
+    print(bits)
+    return bitlist(bits).to_bytes()
+
+
+if __name__ == "__main__":
+    p = np.array([255, 255, 255, 255, 0, 0, 0, 0])
+    b = build_bytes_from_pixels(p, 2)
+    print(b)
