@@ -1,5 +1,5 @@
 import pytest
-from steganography.bit_manipulation import set_bit, set_n_LSB
+from steganography.utils.bit_manipulation import set_bit, set_n_LSB
 
 
 def test_set_bit() -> None:
