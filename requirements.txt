@@ -1,2 +1,3 @@
 bitlist
 numpy
+more_itertools
