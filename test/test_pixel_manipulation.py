@@ -3,6 +3,7 @@ from steganography.utils.pixel_manipulation import (
     embed_bits_in_pixels,
     combine_rgb_and_alpha,
     seperate_rgb_from_alpha,
+    build_bytes_from_pixels,
 )
 
 pixels = np.array(
@@ -28,6 +29,18 @@ alpha = np.array([[255], [100], [50], [0]]).flatten()
 
 def test_embed_bits_in_pixels() -> None:
     NotImplemented
+
+
+def test_build_bytes_from_pixels() -> None:
+    p1 = np.array([255, 255, 0, 0, 0, 0])
+    p2 = np.array([0, 0, 0, 2])
+    p3 = np.array([3])
+    assert build_bytes_from_pixels(p1, 1) == b"0"
+    assert build_bytes_from_pixels(p1, 2) == b"\x0f\x00"
+    assert build_bytes_from_pixels(p2, 1) == b"\x00"
+    assert build_bytes_from_pixels(p2, 2) == b"\x02"
+    assert build_bytes_from_pixels(p3, 1) == b"\x01"
+    assert build_bytes_from_pixels(p3, 2) == b"\x03"
 
 
 def test_combine_rgb_and_alpha() -> None:

@@ -48,9 +48,3 @@ def build_bytes_from_pixels(pixels: NDArray, n_lsb: int) -> bytes:
         bits += pb[-n_lsb:].bin()
     print(bits)
     return bitlist(bits).to_bytes()
-
-
-if __name__ == "__main__":
-    p = np.array([255, 255, 255, 255, 0, 0, 0, 0])
-    b = build_bytes_from_pixels(p, 2)
-    print(b)
