@@ -4,7 +4,7 @@ import numpy as np
 from numpy.typing import NDArray
 from bitlist import bitlist
 from typing import IO, Tuple
-from steganography.utils.misc import *
+from steganography.utils.misc import HashFunction
 
 #  from steganography.utils.misc import test
 
