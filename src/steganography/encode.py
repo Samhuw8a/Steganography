@@ -16,7 +16,7 @@ __all__ = ["encode_file_in_image"]
 
 
 def _encode_image_to_rgb_and_alpha_array(image: Img) -> Tuple[NDArray, NDArray]:
-    "Split image into rgb and alpha array"
+    "Convert the Image to a usable mode and split into rgb and alpha array"
     if image.format != "PNG":
         raise ImageTypeException(
             "The Provided Image has to be of Type: 'PNG' got '{image.format}'"
