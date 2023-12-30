@@ -1,5 +1,12 @@
-from typing import Callable
+from typing import Callable, Any
 
-__all__ = ["HashFunction"]
 
 HashFunction = Callable[[bytes], str]
+
+
+class ImageTypeException(TypeError):
+    pass
+
+
+class ImageModeException(TypeError):
+    pass

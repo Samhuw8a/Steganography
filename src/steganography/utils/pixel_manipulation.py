@@ -4,6 +4,7 @@ import numpy as np
 from numpy.typing import NDArray
 from steganography.utils.bit_manipulation import set_LSB
 from copy import deepcopy
+from typing import Tuple
 
 
 __all__ = [
@@ -37,7 +38,7 @@ def combine_rgb_and_alpha(rgb: NDArray, alpha: NDArray) -> NDArray:
     return np.array(n)
 
 
-def seperate_rgb_and_alpha(img_pixels: NDArray) -> tuple:
+def seperate_rgb_and_alpha(img_pixels: NDArray) -> Tuple[NDArray, NDArray]:
     pixels = img_pixels.flatten()
     rgb = []
     alpha = []
