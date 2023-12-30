@@ -46,5 +46,4 @@ def build_bytes_from_pixels(pixels: NDArray, n_lsb: int) -> bytes:
     for p in pixels:
         pb = bitlist(int(p), length=p + n_lsb)
         bits += pb[-n_lsb:].bin()
-    print(bits)
     return bitlist(bits).to_bytes()
