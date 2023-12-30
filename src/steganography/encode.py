@@ -3,11 +3,12 @@ from PIL.Image import Image as Img
 import numpy as np
 from numpy.typing import NDArray
 from bitlist import bitlist
-from typing import IO, Tuple, Callable
+from typing import IO, Tuple
+from steganography.utils.misc import *
+
+#  from steganography.utils.misc import test
 
 __all__ = ["encode_file_in_image"]
-
-HashFunction = Callable[[bytes], str]
 
 
 def _encode_image_to_flatt_and_alpha_array(image: Img) -> Tuple[NDArray]:
