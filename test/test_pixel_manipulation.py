@@ -1,4 +1,6 @@
 import numpy as np
+import pytest
+from bitlist import bitlist
 from steganography.utils.pixel_manipulation import (
     embed_bits_in_pixels,
     combine_rgb_and_alpha,
@@ -28,7 +30,19 @@ alpha = np.array([[255], [100], [50], [0]]).flatten()
 
 
 def test_embed_bits_in_pixels() -> None:
-    NotImplemented
+    # TODO function tests
+    with pytest.raises(ValueError):
+        embed_bits_in_pixels(np.array([[1], [2]]), bitlist(""), 1)
+        embed_bits_in_pixels(rgb, bitlist(""), 0)
+        embed_bits_in_pixels(rgb, bitlist(""), 9)
+
+
+def test_get_LSB_bytes_from_pixels() -> None:
+    # TODO function tests
+
+    with pytest.raises(ValueError):
+        get_LSB_bytes_from_pixels(pixels, 0)
+        get_LSB_bytes_from_pixels(pixels, 9)
 
 
 def test_build_bytes_from_pixels() -> None:
@@ -45,12 +59,17 @@ def test_build_bytes_from_pixels() -> None:
 
 def test_combine_rgb_and_alpha() -> None:
     assert np.array_equal(combine_rgb_and_alpha(rgb, alpha), pixels)
+    with pytest.raises(ValueError):
+        combine_rgb_and_alpha(rgb[1:], alpha)
+        combine_rgb_and_alpha(rgb, alpha[1:])
 
 
 def test_seperate_rgb_from_alpha() -> None:
     nrgb, nalpha = seperate_rgb_and_alpha(pixels)
     assert np.array_equal(nrgb, rgb)
     assert np.array_equal(nalpha, alpha)
+    with pytest.raises(ValueError):
+        seperate_rgb_and_alpha(pixels[1:])
 
 
 def test_seperate_and_combine_reversal() -> None:

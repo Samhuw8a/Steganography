@@ -1,5 +1,10 @@
-from steganography.utils.hashing import bitlist_to_string, string_to_bitlist
+from steganography.utils.hashing import (
+    bitlist_to_string,
+    string_to_bitlist,
+    validate_hash,
+)
 from bitlist import bitlist
+import pytest
 
 
 def test_string_to_bitlist_reversal() -> None:
@@ -18,3 +23,9 @@ def test_bitlist_to_string_reversal() -> None:
     assert string_to_bitlist(bitlist_to_string(b2)) == b2
     assert string_to_bitlist(bitlist_to_string(b3)) == b3
     assert string_to_bitlist(bitlist_to_string(b4)) == b4
+
+
+def test_validate_hash() -> None:
+    with pytest.raises(ValueError):
+        validate_hash("adsfasdf", bytes(b""))
+        validate_hash("adsfasdfafadfasdfasdfasdfasddfasdf", bytes(b""))

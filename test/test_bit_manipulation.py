@@ -33,7 +33,11 @@ def test_set_LSB() -> None:
     assert set_LSB(255, 2, (0, 0)) == 252
     assert set_LSB(255, 3, (0, 1, 0)) == 250
     with pytest.raises(ValueError):
+        # n!=len(x)
         set_LSB(255, 4, (0,))
         set_LSB(255, 4, (0, 1))
         set_LSB(255, 4, (0, 1, 1))
         set_LSB(255, 4, (0, 1, 0, 1, 0))
+        # n not between 1 and 8
+        set_LSB(255, 0, tuple())
+        set_LSB(255, 9, (1, 1, 1, 1, 1, 1, 1, 1, 1))

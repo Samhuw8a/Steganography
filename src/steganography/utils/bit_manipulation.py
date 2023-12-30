@@ -19,9 +19,11 @@ def set_bit(v: int, index: int, x: Union[int, bool]) -> int:
 
 
 def set_LSB(v: int, n: int, x: Sequence[Union[int, bool]]) -> int:
-    """set the n LSB's to the corresponding vallue in x"""
+    """set the n LSB's to the corresponding value in x"""
     if len(x) != n:
         raise ValueError("x must contain n elements")
+    if not 0 < n <= 8:
+        raise ValueError("n has to be between 1 and 8")
     for i in range(n):
         v = set_bit(v, i, x[i])
     return v

@@ -12,6 +12,8 @@ def hash_file(file: bytes) -> str:
 
 def validate_hash(org_hash: str, file: bytes) -> bool:
     """Compare the SHA256 hash of file to org_hash"""
+    if not len(org_hash) == 64:
+        raise ValueError("org_hash has to be a valid SHA256 hash")
     fhash = hashlib.sha256(file).hexdigest()
     return org_hash == fhash
 
