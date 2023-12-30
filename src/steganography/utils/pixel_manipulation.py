@@ -2,15 +2,24 @@ from bitlist import bitlist
 from more_itertools import chunked
 import numpy as np
 from numpy.typing import NDArray
-from steganography.utils.bit_manipulation import set_n_LSB
+from steganography.utils.bit_manipulation import set_LSB
 from copy import deepcopy
+
+
+__all__ = [
+    "embed_bits_in_pixels",
+    "build_pixel_array",
+    "combine_rgb_and_alpha",
+    "seperate_rgb_and_alpha",
+    "get_LSB_bytes_from_pixels",
+]
 
 
 def embed_bits_in_pixels(pixels: NDArray, bits: bitlist, n_LSB: int) -> NDArray:
     new = deepcopy(pixels)
     for i, el in enumerate(zip(pixels, chunked(bits, n_LSB))):
         p, lsb = el
-        p = set_n_LSB(p, n_LSB, lsb)
+        p = set_LSB(p, n_LSB, lsb)
         new[i] = p
     return new
 
@@ -28,7 +37,7 @@ def combine_rgb_and_alpha(rgb: NDArray, alpha: NDArray) -> NDArray:
     return np.array(n)
 
 
-def seperate_rgb_from_alpha(img_pixels: NDArray) -> tuple:
+def seperate_rgb_and_alpha(img_pixels: NDArray) -> tuple:
     pixels = img_pixels.flatten()
     rgb = []
     alpha = []
@@ -41,7 +50,7 @@ def seperate_rgb_from_alpha(img_pixels: NDArray) -> tuple:
     return np.array(rgb), np.array(alpha)
 
 
-def build_bytes_from_pixels(pixels: NDArray, n_lsb: int) -> bytes:
+def get_LSB_bytes_from_pixels(pixels: NDArray, n_lsb: int) -> bytes:
     bits: str = ""
     for p in pixels:
         pb = bitlist(int(p), length=p + n_lsb)

@@ -1,6 +1,8 @@
 from typing import Union
 from collections.abc import Sequence
 
+__all__ = ["set_bit", "set_LSB"]
+
 
 def set_bit(v: int, index: int, x: Union[int, bool]) -> int:
     """Set the index:th bit of v to 1 if x is truthy, else to 0, and return the new value."""
@@ -16,8 +18,8 @@ def set_bit(v: int, index: int, x: Union[int, bool]) -> int:
     return v
 
 
-def set_n_LSB(v: int, n: int, x: Sequence[Union[int, bool]]) -> int:
-    """set the n LSB to the corresponding vallue in x"""
+def set_LSB(v: int, n: int, x: Sequence[Union[int, bool]]) -> int:
+    """set the n LSB's to the corresponding vallue in x"""
     if len(x) != n:
         raise ValueError("x must contain n elements")
     for i in range(n):

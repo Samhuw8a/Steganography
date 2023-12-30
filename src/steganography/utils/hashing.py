@@ -1,6 +1,8 @@
 from bitlist import bitlist
 import hashlib
 
+__all__ = ["hash_file", "validate_hash", "string_to_bitlist", "bitlist_to_string"]
+
 
 def hash_file(file: bytes) -> str:
     rhash = hashlib.sha256(file)

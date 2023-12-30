@@ -2,8 +2,8 @@ import numpy as np
 from steganography.utils.pixel_manipulation import (
     embed_bits_in_pixels,
     combine_rgb_and_alpha,
-    seperate_rgb_from_alpha,
-    build_bytes_from_pixels,
+    seperate_rgb_and_alpha,
+    get_LSB_bytes_from_pixels,
 )
 
 pixels = np.array(
@@ -35,12 +35,12 @@ def test_build_bytes_from_pixels() -> None:
     p1 = np.array([255, 255, 0, 0, 0, 0])
     p2 = np.array([0, 0, 0, 2])
     p3 = np.array([3])
-    assert build_bytes_from_pixels(p1, 1) == b"0"
-    assert build_bytes_from_pixels(p1, 2) == b"\x0f\x00"
-    assert build_bytes_from_pixels(p2, 1) == b"\x00"
-    assert build_bytes_from_pixels(p2, 2) == b"\x02"
-    assert build_bytes_from_pixels(p3, 1) == b"\x01"
-    assert build_bytes_from_pixels(p3, 2) == b"\x03"
+    assert get_LSB_bytes_from_pixels(p1, 1) == b"0"
+    assert get_LSB_bytes_from_pixels(p1, 2) == b"\x0f\x00"
+    assert get_LSB_bytes_from_pixels(p2, 1) == b"\x00"
+    assert get_LSB_bytes_from_pixels(p2, 2) == b"\x02"
+    assert get_LSB_bytes_from_pixels(p3, 1) == b"\x01"
+    assert get_LSB_bytes_from_pixels(p3, 2) == b"\x03"
 
 
 def test_combine_rgb_and_alpha() -> None:
@@ -48,6 +48,13 @@ def test_combine_rgb_and_alpha() -> None:
 
 
 def test_seperate_rgb_from_alpha() -> None:
-    nrgb, nalpha = seperate_rgb_from_alpha(pixels)
+    nrgb, nalpha = seperate_rgb_and_alpha(pixels)
     assert np.array_equal(nrgb, rgb)
     assert np.array_equal(nalpha, alpha)
+
+
+def test_seperate_and_combine_reversal() -> None:
+    a1 = np.array([123, 123, 123, 123, 456, 456, 456, 456])
+    assert np.array_equal(a1, combine_rgb_and_alpha(*seperate_rgb_and_alpha(a1)))
+    a2 = np.array(["asdf", "asdf", "asdf", "asdf"])
+    assert np.array_equal(a2, combine_rgb_and_alpha(*seperate_rgb_and_alpha(a2)))

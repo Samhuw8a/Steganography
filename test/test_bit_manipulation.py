@@ -1,5 +1,5 @@
 import pytest
-from steganography.utils.bit_manipulation import set_bit, set_n_LSB
+from steganography.utils.bit_manipulation import set_bit, set_LSB
 
 
 def test_set_bit() -> None:
@@ -26,14 +26,14 @@ def test_set_bit() -> None:
         set_bit(255, 0, -1)
 
 
-def test_set_n_LSB() -> None:
-    assert set_n_LSB(255, 1, (0,)) == 254
-    assert set_n_LSB(255, 1, [0]) == 254
+def test_set_LSB() -> None:
+    assert set_LSB(255, 1, (0,)) == 254
+    assert set_LSB(255, 1, [0]) == 254
 
-    assert set_n_LSB(255, 2, (0, 0)) == 252
-    assert set_n_LSB(255, 3, (0, 1, 0)) == 250
+    assert set_LSB(255, 2, (0, 0)) == 252
+    assert set_LSB(255, 3, (0, 1, 0)) == 250
     with pytest.raises(ValueError):
-        set_n_LSB(255, 4, (0,))
-        set_n_LSB(255, 4, (0, 1))
-        set_n_LSB(255, 4, (0, 1, 1))
-        set_n_LSB(255, 4, (0, 1, 0, 1, 0))
+        set_LSB(255, 4, (0,))
+        set_LSB(255, 4, (0, 1))
+        set_LSB(255, 4, (0, 1, 1))
+        set_LSB(255, 4, (0, 1, 0, 1, 0))
