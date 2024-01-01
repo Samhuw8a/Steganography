@@ -11,4 +11,6 @@ def get_max_payload_size(pixels: NDArray, nlsb: int, lenght_bits: int = 20) -> i
     available = vals * nlsb  # Anzahl Freier Bits nach LSB bits
     available -= lenght_bits
     available -= HASH
+    if available <= 0:
+        raise ValueError("The pixels array is to small to store any data")
     return available
