@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.typing import NDArray
 import pytest
 from bitlist import bitlist
 from steganography.utils.pixel_manipulation import (
@@ -7,6 +8,9 @@ from steganography.utils.pixel_manipulation import (
     seperate_rgb_and_alpha,
     get_LSB_bytes_from_pixels,
 )
+from hypothesis import given
+from hypothesis.extra.numpy import arrays
+from hypothesis.strategies import integers
 
 pixels = np.array(
     [
@@ -72,8 +76,19 @@ def test_seperate_rgb_from_alpha() -> None:
         seperate_rgb_and_alpha(pixels[1:])
 
 
-def test_seperate_and_combine_reversal() -> None:
-    a1 = np.array([123, 123, 123, 123, 456, 456, 456, 456])
-    assert np.array_equal(a1, combine_rgb_and_alpha(*seperate_rgb_and_alpha(a1)))
-    a2 = np.array(["asdf", "asdf", "asdf", "asdf"])
-    assert np.array_equal(a2, combine_rgb_and_alpha(*seperate_rgb_and_alpha(a2)))
+@given(
+    integers(min_value=1, max_value=1000)
+    .filter(lambda x: x % 4 == 0)
+    .flatmap(lambda n: arrays(int, n))
+)
+def test_seperate_and_combine_reversal_int(a: NDArray) -> None:
+    assert np.array_equal(a, combine_rgb_and_alpha(*seperate_rgb_and_alpha(a)))
+
+
+@given(
+    integers(min_value=1, max_value=1000)
+    .filter(lambda x: x % 4 == 0)
+    .flatmap(lambda n: arrays(str, n))
+)
+def test_seperate_and_combine_reversal_str(a: NDArray) -> None:
+    assert np.array_equal(a, combine_rgb_and_alpha(*seperate_rgb_and_alpha(a)))
