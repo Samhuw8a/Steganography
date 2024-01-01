@@ -1,6 +1,8 @@
 from bitlist import bitlist
 import hashlib
+from typing import Union
 
+StringOrBytes = Union[str, bytes]
 __all__ = ["hash_file", "validate_hash", "string_to_bitlist", "bitlist_to_string"]
 
 
@@ -18,8 +20,14 @@ def validate_hash(org_hash: str, file: bytes) -> bool:
     return org_hash == fhash
 
 
-def string_to_bitlist(string: str) -> bitlist:
-    return bitlist(string.encode())
+def string_to_bitlist(string: StringOrBytes) -> bitlist:
+    if isinstance(string, str):
+        encoded = string.encode()
+    elif isinstance(string, bytes):
+        encoded = string
+    else:
+        raise ValueError("'string' must be of type str or bytes")
+    return bitlist(encoded)
 
 
 def bitlist_to_string(bits: bitlist) -> str:

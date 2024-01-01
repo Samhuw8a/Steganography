@@ -5,24 +5,19 @@ from steganography.utils.hashing import (
 )
 from bitlist import bitlist
 import pytest
+from hypothesis import given
+from hypothesis.strategies import text
 
 
-def test_string_to_bitlist_reversal() -> None:
-    assert bitlist_to_string(string_to_bitlist("asdfghjkl")) == "asdfghjkl"
-    assert bitlist_to_string(string_to_bitlist("123456789")) == "123456789"
-    assert bitlist_to_string(string_to_bitlist(".,#<>()[]{}")) == ".,#<>()[]{}"
-    assert bitlist_to_string(string_to_bitlist("\n\t")) == "\n\t"
+@given(text())
+def test_string_to_bitlist_reversal(text: str) -> None:
+    assert bitlist_to_string(string_to_bitlist(text)) == text
 
 
-def test_bitlist_to_string_reversal() -> None:
-    b1 = bitlist("1101010101")
-    b2 = bitlist("000010100101001010")
-    b3 = bitlist("1010101010101")
-    b4 = bitlist("1")
-    assert string_to_bitlist(bitlist_to_string(b1)) == b1
-    assert string_to_bitlist(bitlist_to_string(b2)) == b2
-    assert string_to_bitlist(bitlist_to_string(b3)) == b3
-    assert string_to_bitlist(bitlist_to_string(b4)) == b4
+@given(text(alphabet="10", min_size=1))
+def test_bitlist_to_string_reversal(rbits: str) -> None:
+    bits = rbits.encode("utf-8")
+    assert string_to_bitlist(bitlist_to_string(bitlist(bits))) == bitlist(bits)
 
 
 def test_validate_hash() -> None:
