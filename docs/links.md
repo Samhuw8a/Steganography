@@ -5,3 +5,4 @@
 - Python bitlist library: "https://pypi.org/project/bitlist/"
 - PIL documentation: "https://pillow.readthedocs.io/en/stable/reference/index.html"
 - Numpy documentation: "https://numpy.org/doc/stable/reference/index.html#reference"
+- PNG-basics blog: "http://www.libpng.org/pub/png/book/chapter08.html"
