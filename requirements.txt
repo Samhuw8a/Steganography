@@ -2,3 +2,4 @@ bitlist
 numpy
 more_itertools
 Pillow
+cryptography
