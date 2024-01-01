@@ -2,7 +2,7 @@ from numpy.typing import NDArray
 
 __all__ = ["get_max_payload_size"]
 
-LENGHT = 20  # Lenge der Payload in Bits
+LENGHT = 20  # Laenge der Payload in Bits
 HASH = 256  # Länge des SHA-256 Hash in bits
 
 
