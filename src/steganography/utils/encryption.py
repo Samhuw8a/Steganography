@@ -9,7 +9,7 @@ from typing import Union
 StringOrBytes = Union[str, bytes]
 
 
-def encrypt(key: StringOrBytes, source: bytes, encode: bool = True) -> StringOrBytes:
+def encrypt(key: bytes, source: bytes, encode: bool = True) -> StringOrBytes:
     key = SHA256.new(key).digest()  # use SHA-256 to get a proper-sized AES key
     IV: bytes = Random.new().read(AES.block_size)  # type: ignore
     encryptor = AES.new(key, AES.MODE_CBC, IV)
@@ -19,9 +19,7 @@ def encrypt(key: StringOrBytes, source: bytes, encode: bool = True) -> StringOrB
     return base64.b64encode(data).decode("latin-1") if encode else data
 
 
-def decrypt(
-    key: StringOrBytes, rsource: StringOrBytes, decode: bool = True
-) -> StringOrBytes:
+def decrypt(key: bytes, rsource: StringOrBytes, decode: bool = True) -> StringOrBytes:
     if decode:
         source = base64.b64decode(rsource.encode("latin-1"))  # type: ignore
     key = SHA256.new(key).digest()  # use SHA-256 to get a proper-sized AES key
