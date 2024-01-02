@@ -16,7 +16,7 @@ __all__ = ["encode_file_in_image"]
 
 
 def _encode_image_to_rgb_and_alpha_array(image: Img) -> Tuple[NDArray, NDArray]:
-    "Convert the Image to a usable mode and split into rgb and alpha array"
+    """Convert the Image to a usable mode and split into rgb and alpha array"""
     if image.format != "PNG":
         raise ImageTypeException(
             "The Provided Image has to be of Type: 'PNG' got '{image.format}'"
@@ -35,12 +35,6 @@ def _encode_image_to_rgb_and_alpha_array(image: Img) -> Tuple[NDArray, NDArray]:
     pixels = np.array(image).flatten()
     rgb, alpha = seperate_rgb_and_alpha(pixels)
     return (rgb, alpha)
-
-
-def _build_bits_for_file(file_content: bytes, hash_func: HashFunction) -> bitlist:
-    # TODO hash file
-    # TODO convert hash to bitlist
-    return NotImplemented
 
 
 def encode_file_in_image(file: IO[bytes], image: Img, n_lsb: int) -> Img:
