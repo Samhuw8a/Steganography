@@ -4,12 +4,12 @@ from steganography.utils.misc import HashFunction
 from typing import Tuple
 
 
-__all__ = ["get_max_payload_size"]
+__all__ = ["build_bits_for_file", "extract_file_and_metadata_from_raw_bits"]
 
 HASH = 256  # Länge des SHA-256 Hash in bits
 
 
-def get_max_payload_size(pixels: NDArray, nlsb: int, lenght_bits: int = 20) -> int:
+def _get_max_payload_size(pixels: NDArray, nlsb: int, lenght_bits: int = 20) -> int:
     """Max size of payload in bits"""
     vals = len(pixels) - 1  # Anzahl an Freien Pixel minus 1 für das LSB pixel
     available = vals * nlsb  # Anzahl Freier Bits nach LSB bits
@@ -30,8 +30,6 @@ def build_bits_for_file(
     :param hash_func: function for hashing the file bytes
     :return: bits for embeding
     """
-    # TODO hash file
-    # TODO convert hash to bitlist
     return NotImplemented
 
 
@@ -43,7 +41,4 @@ def extract_file_and_metadata_from_raw_bits(
     :param extracted_bits: all of the n_LSB bits from the file
     :return: Tuple[file_hash, file_name, file_bytes]
     """
-
-    # TODO hash file
-    # TODO convert hash to bitlist
     return NotImplemented
