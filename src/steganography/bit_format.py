@@ -1,4 +1,7 @@
 from numpy.typing import NDArray
+from bitlist import bitlist
+from steganography.utils.misc import HashFunction
+
 
 __all__ = ["get_max_payload_size"]
 
@@ -14,3 +17,9 @@ def get_max_payload_size(pixels: NDArray, nlsb: int, lenght_bits: int = 20) -> i
     if available <= 0:
         raise ValueError("The pixels array is to small to store any data")
     return available
+
+
+def build_bits_for_file(file_content: bytes, hash_func: HashFunction) -> bitlist:
+    # TODO hash file
+    # TODO convert hash to bitlist
+    return NotImplemented
