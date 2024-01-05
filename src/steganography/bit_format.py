@@ -7,17 +7,23 @@ from typing import Tuple
 __all__ = ["build_bits_for_file", "extract_file_and_metadata_from_raw_bits"]
 
 HASH = 256  # Länge des SHA-256 Hash in bits
+STEG_TAG = bytes(b"[STEG]")  # Steg Tag zum Abgränzen der versteckten Datei
 
 
-def _get_max_payload_size(pixels: NDArray, nlsb: int, lenght_bits: int = 20) -> int:
+def _get_max_payload_size(pixels: NDArray, nlsb: int, tag: bytes = STEG_TAG) -> int:
     """Max size of payload in bits"""
     vals = len(pixels) - 1  # Anzahl an Freien Pixel minus 1 für das LSB pixel
     available = vals * nlsb  # Anzahl Freier Bits nach LSB bits
-    available -= lenght_bits
     available -= HASH
+    available -= len(tag) * 8 * 2  # steg tag zum trennen von Files
     if available <= 0:
         raise ValueError("The pixels array is to small to store any data")
     return available
+
+
+def _add_seperator_tag_to_file(file: bytes, tag: bytes) -> bytes:
+    """Returns file bytes with added Tag; 'tag file tag'"""
+    return tag + file + tag
 
 
 def build_bits_for_file(
