@@ -1,11 +1,12 @@
-from bitlist import bitlist
-from more_itertools import chunked
-import numpy as np
-from numpy.typing import NDArray
-from steganography.utils.bit_manipulation import set_LSB
 from copy import deepcopy
 from typing import Tuple
 
+import numpy as np
+from bitlist import bitlist
+from more_itertools import chunked
+from numpy.typing import NDArray
+
+from steganography.utils.bit_manipulation import set_LSB
 
 __all__ = [
     "embed_bits_in_pixels",

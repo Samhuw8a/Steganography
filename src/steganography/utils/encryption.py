@@ -1,10 +1,11 @@
 # Copied from https://stackoverflow.com/questions/42568262/how-to-encrypt-text-with-a-password-in-python
 
 import base64
+from typing import Union
+
+from Crypto import Random
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
-from Crypto import Random
-from typing import Union
 
 StringOrBytes = Union[str, bytes]
 

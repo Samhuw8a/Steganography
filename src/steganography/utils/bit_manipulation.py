@@ -1,5 +1,5 @@
-from typing import Union
 from collections.abc import Sequence
+from typing import Union
 
 __all__ = ["set_bit", "set_LSB"]
 
