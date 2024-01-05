@@ -1,16 +1,12 @@
-from PIL import Image
-from PIL.Image import Image as Img
+import lzma
+from typing import IO, Tuple
+
 import numpy as np
 from numpy.typing import NDArray
-from bitlist import bitlist
-from typing import IO, Tuple
-from steganography.utils.misc import (
-    HashFunction,
-    ImageTypeException,
-    ImageModeException,
-)
-from steganography.utils.pixel_manipulation import seperate_rgb_and_alpha
+from PIL.Image import Image as Img
 
+from steganography.utils.misc import ImageModeException, ImageTypeException
+from steganography.utils.pixel_manipulation import seperate_rgb_and_alpha
 
 __all__ = ["encode_file_in_image"]
 
@@ -35,6 +31,10 @@ def _encode_image_to_rgb_and_alpha_array(image: Img) -> Tuple[NDArray, NDArray]:
     pixels = np.array(image).flatten()
     rgb, alpha = seperate_rgb_and_alpha(pixels)
     return (rgb, alpha)
+
+
+def _compress_file(file: bytes) -> bytes:
+    return lzma.compress(file)
 
 
 def encode_file_in_image(file: IO[bytes], image: Img, n_lsb: int) -> Img:

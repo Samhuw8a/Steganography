@@ -4,13 +4,18 @@ from steganography.utils.misc import HashFunction
 from typing import Tuple
 
 
-__all__ = ["build_bits_for_file", "extract_file_and_metadata_from_raw_bits"]
+__all__ = [
+    "build_bits_for_file",
+    "extract_file_and_metadata_from_raw_bits",
+    "add_seperator_tag_to_file",
+    "get_max_payload_size",
+]
 
 HASH = 256  # Länge des SHA-256 Hash in bits
 STEG_TAG = bytes(b"[STEG]")  # Steg Tag zum Abgränzen der versteckten Datei
 
 
-def _get_max_payload_size(pixels: NDArray, nlsb: int, tag: bytes = STEG_TAG) -> int:
+def get_max_payload_size(pixels: NDArray, nlsb: int, tag: bytes = STEG_TAG) -> int:
     """Max size of payload in bits"""
     vals = len(pixels) - 1  # Anzahl an Freien Pixel minus 1 für das LSB pixel
     available = vals * nlsb  # Anzahl Freier Bits nach LSB bits
@@ -21,7 +26,7 @@ def _get_max_payload_size(pixels: NDArray, nlsb: int, tag: bytes = STEG_TAG) -> 
     return available
 
 
-def _add_seperator_tag_to_file(file: bytes, tag: bytes) -> bytes:
+def add_seperator_tag_to_file(file: bytes, tag: bytes) -> bytes:
     """Returns file bytes with added Tag; 'tag file tag'"""
     return tag + file + tag
 
