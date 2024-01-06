@@ -1,4 +1,5 @@
 import pytest
+
 from steganography.utils.bit_manipulation import set_bit, set_LSB
 
 

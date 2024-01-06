@@ -1,6 +1,7 @@
-from steganography.utils.encryption import encrypt, decrypt
 from hypothesis import given
 from hypothesis.strategies import binary
+
+from steganography.utils.encryption import decrypt, encrypt
 
 
 @given(data=binary(), key=binary())

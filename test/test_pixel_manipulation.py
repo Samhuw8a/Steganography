@@ -1,16 +1,17 @@
 import numpy as np
-from numpy.typing import NDArray
 import pytest
 from bitlist import bitlist
-from steganography.utils.pixel_manipulation import (
-    embed_bits_in_pixels,
-    combine_rgb_and_alpha,
-    seperate_rgb_and_alpha,
-    get_LSB_bytes_from_pixels,
-)
 from hypothesis import given
 from hypothesis.extra.numpy import arrays
 from hypothesis.strategies import integers
+from numpy.typing import NDArray
+
+from steganography.utils.pixel_manipulation import (
+    combine_rgb_and_alpha,
+    embed_bits_in_pixels,
+    get_LSB_bytes_from_pixels,
+    seperate_rgb_and_alpha,
+)
 
 pixels = np.array(
     [
