@@ -5,7 +5,6 @@ from hypothesis import given
 from hypothesis.extra.numpy import arrays
 from hypothesis.strategies import integers
 from numpy.typing import NDArray
-
 from steganography.utils.pixel_manipulation import (
     combine_rgb_and_alpha,
     embed_bits_in_pixels,
