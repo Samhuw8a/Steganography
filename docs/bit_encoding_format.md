@@ -7,4 +7,4 @@
 #### FILE-BITS
 - Steg-Tag [STEG]
 - File-Content (komprimiert mit LZMA und AES encoded file-Content)
-- Steg-Tag [Steg]
+- Steg-Tag [STEG]
