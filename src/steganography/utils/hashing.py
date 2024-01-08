@@ -1,3 +1,4 @@
+from __future__ import annotations
 from bitlist import bitlist
 import hashlib
 from typing import Union

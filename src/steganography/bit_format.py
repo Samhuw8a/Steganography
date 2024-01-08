@@ -1,3 +1,4 @@
+from __future__ import annotations
 from numpy.typing import NDArray
 from bitlist import bitlist
 from steganography.utils.misc import HashFunction
