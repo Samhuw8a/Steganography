@@ -1,5 +1,4 @@
 from __future__ import annotations
-import lzma
 from typing import IO, Tuple
 
 import numpy as np
@@ -32,10 +31,6 @@ def _encode_image_to_rgb_and_alpha_array(image: Img) -> Tuple[NDArray, NDArray]:
     pixels = np.array(image).flatten()
     rgb, alpha = seperate_rgb_and_alpha(pixels)
     return (rgb, alpha)
-
-
-def _compress_file(file: bytes) -> bytes:
-    return lzma.compress(file)
 
 
 def encode_file_in_image(file: IO[bytes], image: Img, n_lsb: int) -> Img:
