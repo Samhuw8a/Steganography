@@ -24,6 +24,8 @@ def encrypt(key: bytes, source: bytes, encode: bool = True) -> StringOrBytes:
 def decrypt(key: bytes, rsource: StringOrBytes, decode: bool = True) -> StringOrBytes:
     if decode:
         source = base64.b64decode(rsource.encode("latin-1"))  # type: ignore
+    else:
+        source = rsource  # type: ignore
     key = SHA256.new(key).digest()  # use SHA-256 to get a proper-sized AES key
     IV = source[: AES.block_size]  # extract the IV from the beginning
     decryptor = AES.new(key, AES.MODE_CBC, IV)
