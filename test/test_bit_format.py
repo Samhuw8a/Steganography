@@ -15,7 +15,7 @@ def test_compress_decompress_reversal(cont: bytes) -> None:
 
 
 @given(file=binary(), name=text(), key=binary())
-def test_build_extract_reversal(file: binary, name: str, key: binary) -> None:
+def test_build_extract_reversal(file: bytes, name: str, key: binary) -> None:
     bits = build_bits_for_file(file, name, hash_file, key)
     assert (hash_file(file), name, file) == extract_file_and_metadata_from_raw_bits(
         bits, key
