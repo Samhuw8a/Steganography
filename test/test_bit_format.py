@@ -1,8 +1,22 @@
-from steganography.bit_format import _compress_file, _decompress_file
-from hypothesis.strategies import binary
+from steganography.bit_format import (
+    _compress_file,
+    _decompress_file,
+    build_bits_for_file,
+    extract_file_and_metadata_from_raw_bits,
+)
+from steganography.utils.hashing import hash_file
+from hypothesis.strategies import binary, text
 from hypothesis import given
 
 
 @given(binary())
 def test_compress_decompress_reversal(cont: bytes) -> None:
     assert _decompress_file(_compress_file(cont)) == cont
+
+
+@given(file=binary(), name=text(), key=binary())
+def test_build_extract_reversal(file: binary, name: str, key: binary) -> None:
+    bits = build_bits_for_file(file, name, hash_file, key)
+    assert (hash_file(file), name, file) == extract_file_and_metadata_from_raw_bits(
+        bits, key
+    )
