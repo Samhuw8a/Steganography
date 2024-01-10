@@ -69,6 +69,8 @@ def build_bits_for_file(
     :param file_content: encoded and compressed file bytes
     :param file_name: the filename
     :param hash_func: function for hashing the file bytes
+    :param encryption_key: the passkey for the AES Cypher
+    :opt-param steg_tag the Tag used to seperate the file content
     :return: bits for embeding
     """
     file_hash = bitlist.fromhex(hash_func(file_content))
@@ -82,16 +84,20 @@ def build_bits_for_file(
 
 
 def extract_file_and_metadata_from_raw_bits(
-    extracted_bits: bitlist, encryption_key: bytes
+    extracted_bits: bitlist, encryption_key: bytes, steg_tag: bytes = STEG_TAG
 ) -> Tuple[str, str, bytes]:
     """
     Get the file and corresponding metadata from to full set of bits. Not including NLSB bit.
     :param extracted_bits: all of the n_LSB bits from the file
+    :param encryption_key: the passkey for the AES Cypher
+    :opt-param steg_tag the Tag used to seperate the file content
     :return: Tuple[file_hash, file_name, file_bytes]
     """
     file_hash = extracted_bits[:256]
     extracted_bits = extracted_bits[256:]
-    file_name, file_content = _seperate_filename_and_content(extracted_bits)
+    file_name, file_content = _seperate_filename_and_content(
+        extracted_bits, tag=STEG_TAG
+    )
     decrypted = decrypt(encryption_key, file_content, False)
     decompressed = _decompress_file(decrypted)
 
