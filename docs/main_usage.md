@@ -13,7 +13,6 @@
 ## OPTIONS-EMBED
 - '-p' | '--password' ; key des AES
 - '-b' | '--lsb' ; Anzahl der LSB die modifiziert werden (DEF: 1)
-- '--no-compression'; keine Kompression
 - '--no-hash'; kein file-Hash
 - '-o' | '--output' ; Pfad/Name der Output Datei
 - '-v' | '--verbose'
@@ -24,5 +23,4 @@
 ----
 ## OPTIONS-EMBED
 - '-p' | '--password' ; key des AES
-- '--no-compression'; keine Kompression
 - '--no-hash'; kein file-Hash
