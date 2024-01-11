@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import IO, Tuple
+from typing import IO, Tuple, Optional
 
 import numpy as np
 from numpy.typing import NDArray
@@ -56,5 +56,21 @@ def _encode_file_in_pixels(
     return embeded_pixels
 
 
-def encode_file_in_image(file: IO[bytes], image: Img, n_lsb: int) -> Img:
-    return NotImplemented
+def encode_file_in_image(
+    file: IO[bytes],
+    file_name: str,
+    image: Img,
+    n_lsb: int,
+    encryption_key: Optional[str] = None,
+    hashing: bool = True,
+) -> Img:
+    """
+    Encode file into image
+    :param file: the file you intend to hide
+    :param file_name: the filename
+    :param image: Coverimage which is modified
+    :param n_lsb: the number of least significant bits which are modified
+    :param encryption_key: the key used for encryption. If it is not specified, a default key is used.
+    :return: Modified Image
+    """
+    raise NotADirectoryError
