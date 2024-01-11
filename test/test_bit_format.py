@@ -7,7 +7,6 @@ from steganography.bit_format import (
 from steganography.utils.hashing import hash_file
 from hypothesis.strategies import binary, text
 from hypothesis import given
-import pytest
 
 
 @given(binary())
