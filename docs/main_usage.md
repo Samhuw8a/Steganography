@@ -16,9 +16,10 @@
 - '--no-compression'; keine Kompression
 - '--no-hash'; kein file-Hash
 - '-o' | '--output' ; Pfad/Name der Output Datei
-- '--enlarge' ; Target-Bild automatisch vergrössern um Platz zu schaffen
 - '-v' | '--verbose'
 - '-q' | '--quiet'
+*Feature*
+- '--enlarge' ; Target-Bild automatisch vergrössern um Platz zu schaffen
 
 ----
 ## OPTIONS-EMBED
