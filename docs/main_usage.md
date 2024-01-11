@@ -13,8 +13,8 @@
 ## OPTIONS-EMBED
 - '-p' | '--password' ; key des AES
 - '-b' | '--lsb' ; Anzahl der LSB die modifiziert werden (DEF: 1)
-- '-c' | '--compression-level' ; Compression-Level des Compression algorithmus
-- '--dont-compress'; keine Kompression
+- '--no-compression'; keine Kompression
+- '--no-hash'; kein file-Hash
 - '-o' | '--output' ; Pfad/Name der Output Datei
 - '--enlarge' ; Target-Bild automatisch vergrössern um Platz zu schaffen
 - '-v' | '--verbose'
@@ -23,3 +23,5 @@
 ----
 ## OPTIONS-EMBED
 - '-p' | '--password' ; key des AES
+- '--no-compression'; keine Kompression
+- '--no-hash'; kein file-Hash
