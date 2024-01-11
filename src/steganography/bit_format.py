@@ -72,12 +72,15 @@ def build_bits_for_file(
     """
     if hash_func:
         file_hash = bitlist.fromhex(hash_func(file_content))
+        bits = file_hash.bin()
+    else:
+        bits = ""
     compressed = _compress_file(file_content)
     ecrypted = encrypt(encryption_key, compressed, False)
     with_tag = _add_seperator_tag_to_file(ecrypted, STEG_TAG)
     file = bitlist(with_tag)
     filename_bits = bitlist(bytes(file_name.encode()))
-    bits = file_hash.bin() if hash_func else "" + filename_bits.bin() + file.bin()
+    bits += filename_bits.bin() + file.bin()
     return bitlist(bits)
 
 

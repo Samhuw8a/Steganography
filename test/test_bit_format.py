@@ -7,6 +7,7 @@ from steganography.bit_format import (
 from steganography.utils.hashing import hash_file
 from hypothesis.strategies import binary, text
 from hypothesis import given
+import pytest
 
 
 @given(binary())
@@ -19,4 +20,12 @@ def test_build_extract_reversal(file: bytes, name: str, key: bytes) -> None:
     bits = build_bits_for_file(file, name, hash_file, key)
     assert (hash_file(file), name, file) == extract_file_and_metadata_from_raw_bits(
         bits, key
+    )
+
+
+@given(file=binary(), name=text(), key=binary())
+def test_build_extract_reversal_no_hash(file: bytes, name: str, key: bytes) -> None:
+    bits = build_bits_for_file(file, name, None, key)
+    assert (None, name, file) == extract_file_and_metadata_from_raw_bits(
+        bits, key, hashing=False
     )
