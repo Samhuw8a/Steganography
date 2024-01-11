@@ -101,6 +101,7 @@ def extract_file_and_metadata_from_raw_bits(
     if hashing:
         file_hash = extracted_bits[:256]
         extracted_bits = extracted_bits[256:]
+
     file_name, file_content = _seperate_filename_and_content(
         extracted_bits, tag=STEG_TAG
     )
