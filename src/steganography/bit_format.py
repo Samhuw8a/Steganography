@@ -18,14 +18,10 @@ HASH = 256  # Länge des SHA-256 Hash in bits
 STEG_TAG = bytes(b"[STEG]")  # Steg Tag zum Abgränzen der versteckten Datei
 
 
-def get_max_payload_size(pixels: NDArray, nlsb: int, tag: bytes = STEG_TAG) -> int:
+def get_max_payload_size(pixels: NDArray, nlsb: int) -> int:
     """Max size of payload in bits"""
     vals = len(pixels) - 1  # Anzahl an Freien Pixel minus 1 für das LSB pixel
     available = vals * nlsb  # Anzahl Freier Bits nach LSB bits
-    available -= HASH
-    available -= len(tag) * 8 * 2  # steg tag zum trennen von Files
-    if available <= 0:
-        raise ValueError("The pixels array is to small to store any data")
     return available
 
 

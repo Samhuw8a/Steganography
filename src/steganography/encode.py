@@ -46,13 +46,12 @@ def _encode_file_in_pixels(
     n_lsb: int,
 ) -> NDArray:
     """encode the file and Metadata into a flattened rgb-array"""
-    max_size = get_max_payload_size(pixels, n_lsb, tag=STEG_TAG)
-    file_size = len(file_content) * 8 + len(file_name.encode()) * 8
-    if file_size > max_size:
-        raise ValueError("the File and filename are too big to store into the Image")
+    max_size = get_max_payload_size(pixels, n_lsb)
     bits = build_bits_for_file(
         file_content, file_name, hash_file, encryption_key, steg_tag=STEG_TAG
     )
+    if len(bits) > max_size:
+        raise ValueError("the File and filename are too big to store into the Image")
     embeded_pixels = embed_bits_in_pixels(pixels, bits, n_lsb)
     return embeded_pixels
 
