@@ -9,7 +9,7 @@ from steganography.utils.pixel_manipulation import (
     combine_rgb_and_alpha,
     embed_bits_in_pixels,
     get_LSB_bytes_from_pixels,
-    seperate_rgb_and_alpha,
+    _seperate_rgb_and_alpha,
 )
 
 pixels = np.array(
@@ -69,11 +69,11 @@ def test_combine_rgb_and_alpha() -> None:
 
 
 def test_seperate_rgb_from_alpha() -> None:
-    nrgb, nalpha = seperate_rgb_and_alpha(pixels)
+    nrgb, nalpha = _seperate_rgb_and_alpha(pixels)
     assert np.array_equal(nrgb, rgb)
     assert np.array_equal(nalpha, alpha)
     with pytest.raises(ValueError):
-        seperate_rgb_and_alpha(pixels[1:])
+        _seperate_rgb_and_alpha(pixels[1:])
 
 
 @given(
@@ -82,7 +82,7 @@ def test_seperate_rgb_from_alpha() -> None:
     .flatmap(lambda n: arrays(int, n))
 )
 def test_seperate_and_combine_reversal_int(a: NDArray) -> None:
-    assert np.array_equal(a, combine_rgb_and_alpha(*seperate_rgb_and_alpha(a)))
+    assert np.array_equal(a, combine_rgb_and_alpha(*_seperate_rgb_and_alpha(a)))
 
 
 @given(
@@ -91,4 +91,4 @@ def test_seperate_and_combine_reversal_int(a: NDArray) -> None:
     .flatmap(lambda n: arrays(str, n))
 )
 def test_seperate_and_combine_reversal_str(a: NDArray) -> None:
-    assert np.array_equal(a, combine_rgb_and_alpha(*seperate_rgb_and_alpha(a)))
+    assert np.array_equal(a, combine_rgb_and_alpha(*_seperate_rgb_and_alpha(a)))

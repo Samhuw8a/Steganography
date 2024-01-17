@@ -1,19 +1,16 @@
 from __future__ import annotations
-from typing import IO, Tuple, Optional
+from typing import IO, Optional
 
-import numpy as np
 from numpy.typing import NDArray
 from PIL.Image import Image as Img
 from PIL import Image
 
 from steganography.utils.misc import (
-    ImageModeError,
-    ImageTypeError,
     PayloadSizeError,
     HashFunction,
 )
 from steganography.utils.pixel_manipulation import (
-    seperate_rgb_and_alpha,
+    encode_image_to_rgb_and_alpha_array,
     embed_bits_in_pixels,
     combine_rgb_and_alpha,
     build_pixel_array,
@@ -24,28 +21,6 @@ from steganography.bit_format import STEG_TAG, build_bits_for_file, get_max_payl
 __all__ = ["encode_file_in_image"]
 
 DEFAULT_ENCRYPTION_KEY = bytes(b"LSB-Stegagnography")
-
-
-def _encode_image_to_rgb_and_alpha_array(image: Img) -> Tuple[NDArray, NDArray]:
-    """Convert the Image to a usable mode and split into rgb and alpha array"""
-    if image.format != "PNG":
-        raise ImageTypeError(
-            "The Provided Image has to be of Type: 'PNG' got '{image.format}'"
-        )
-    imgtype = image.mode
-    if imgtype == "P":
-        image = image.convert("RGBA")
-    elif imgtype == "RGB":
-        rgb = np.array(image).flatten()
-        alpha = np.zeros(len(rgb) // 3, dtype=int)
-        return (rgb, alpha)
-    elif imgtype != "RGBA":
-        raise ImageModeError(f"Can't handle Imagemode: {imgtype}")
-
-    assert image.mode == "RGBA"
-    pixels = np.array(image).flatten()
-    rgb, alpha = seperate_rgb_and_alpha(pixels)
-    return (rgb, alpha)
 
 
 def _encode_file_in_pixels(
@@ -93,7 +68,7 @@ def encode_file_in_image(
         AES_key = bytes(encryption_key.encode())
     hash_func: Optional[HashFunction] = hash_file if hashing else None
     width, height = image.size
-    rgb, alphas = _encode_image_to_rgb_and_alpha_array(image)
+    rgb, alphas = encode_image_to_rgb_and_alpha_array(image)
     embeded_rgb = _encode_file_in_pixels(
         rgb, file_bytes, file_name, AES_key, n_lsb, hash_func
     )

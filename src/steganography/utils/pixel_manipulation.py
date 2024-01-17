@@ -6,16 +6,41 @@ import numpy as np
 from bitlist import bitlist
 from more_itertools import chunked
 from numpy.typing import NDArray
+from PIL.Image import Image as Img
 
 from steganography.utils.bit_manipulation import set_LSB
+from steganography.utils.misc import ImageModeError, ImageTypeError
 
 __all__ = [
     "embed_bits_in_pixels",
     "build_pixel_array",
     "combine_rgb_and_alpha",
-    "seperate_rgb_and_alpha",
+    "_seperate_rgb_and_alpha",
+    "encode_image_to_rgb_and_alpha_array",
     "get_LSB_bytes_from_pixels",
 ]
+
+
+def encode_image_to_rgb_and_alpha_array(image: Img) -> Tuple[NDArray, NDArray]:
+    """Convert the Image to a usable mode and split into rgb and alpha array"""
+    if image.format != "PNG":
+        raise ImageTypeError(
+            "The Provided Image has to be of Type: 'PNG' got '{image.format}'"
+        )
+    imgtype = image.mode
+    if imgtype == "P":
+        image = image.convert("RGBA")
+    elif imgtype == "RGB":
+        rgb = np.array(image).flatten()
+        alpha = np.zeros(len(rgb) // 3, dtype=int)
+        return (rgb, alpha)
+    elif imgtype != "RGBA":
+        raise ImageModeError(f"Can't handle Imagemode: {imgtype}")
+
+    assert image.mode == "RGBA"
+    pixels = np.array(image).flatten()
+    rgb, alpha = _seperate_rgb_and_alpha(pixels)
+    return (rgb, alpha)
 
 
 def embed_bits_in_pixels(pixels: NDArray, bits: bitlist, n_LSB: int) -> NDArray:
@@ -49,7 +74,7 @@ def combine_rgb_and_alpha(rgb: NDArray, alpha: NDArray) -> NDArray:
     return np.array(n)
 
 
-def seperate_rgb_and_alpha(img_pixels: NDArray) -> Tuple[NDArray, NDArray]:
+def _seperate_rgb_and_alpha(img_pixels: NDArray) -> Tuple[NDArray, NDArray]:
     "Seperate RGB and Alpha Values from a Array of Pixels into two flatt arrays"
     pixels = img_pixels.flatten()
     if len(pixels) % 4 != 0:
