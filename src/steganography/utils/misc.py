@@ -5,9 +5,13 @@ from typing import Callable
 HashFunction = Callable[[bytes], str]
 
 
-class ImageTypeException(TypeError):
+class ImageTypeError(TypeError):
     pass
 
 
-class ImageModeException(TypeError):
+class ImageModeError(TypeError):
+    pass
+
+
+class PayloadSizeError(ValueError):
     pass
