@@ -2,7 +2,7 @@
 
 ## MODES
 - embed
-- exctract
+- extract
 
 ----
 ## PARAMS-EMBED
@@ -11,16 +11,16 @@
 
 ----
 ## OPTIONS-EMBED
-- '-p' | '--password' ; key des AES
+- '--password' ; key des AES
 - '-b' | '--lsb' ; Anzahl der LSB die modifiziert werden (DEF: 1)
 - '--no-hash'; kein file-Hash
 - '-o' | '--output' ; Pfad/Name der Output Datei
+*Feature*
 - '-v' | '--verbose'
 - '-q' | '--quiet'
-*Feature*
 - '--enlarge' ; Target-Bild automatisch vergrössern um Platz zu schaffen
 
 ----
 ## OPTIONS-EMBED
-- '-p' | '--password' ; key des AES
+- '--password' ; key des AES
 - '--no-hash'; kein file-Hash
