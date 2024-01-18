@@ -8,6 +8,7 @@ from PIL import Image
 from steganography.utils.misc import (
     PayloadSizeError,
     HashFunction,
+    DEFAULT_ENCRYPTION_KEY,
 )
 from steganography.utils.pixel_manipulation import (
     encode_image_to_rgb_and_alpha_array,

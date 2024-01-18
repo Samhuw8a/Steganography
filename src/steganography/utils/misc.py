@@ -4,6 +4,8 @@ from typing import Callable
 
 HashFunction = Callable[[bytes], str]
 
+DEFAULT_ENCRYPTION_KEY = bytes(b"LSB-Stegagnography")
+
 
 class ImageTypeError(TypeError):
     pass
