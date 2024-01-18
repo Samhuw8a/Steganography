@@ -21,6 +21,6 @@
 - '--enlarge' ; Target-Bild automatisch vergrössern um Platz zu schaffen
 
 ----
-## OPTIONS-EMBED
+## OPTIONS-EXTRACT
 - '--password' ; key des AES
 - '--no-hash'; kein file-Hash
