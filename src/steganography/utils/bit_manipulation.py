@@ -1,8 +1,14 @@
 from __future__ import annotations
 from collections.abc import Sequence
+from bitlist import bitlist
 from typing import Union
 
-__all__ = ["set_bit", "set_LSB"]
+__all__ = ["set_bit", "set_LSB", "set_lsb_bit"]
+
+
+def set_lsb_bit(pixel: int, n_lsb: int) -> int:
+    bits = bitlist(n_lsb - 1, length=3)
+    return set_LSB(pixel, 3, list(bits))
 
 
 def set_bit(v: int, index: int, x: Union[int, bool]) -> int:

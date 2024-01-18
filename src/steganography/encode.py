@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import IO, Optional
 
 from numpy.typing import NDArray
+import numpy as np
 from PIL.Image import Image as Img
 from PIL import Image
 
@@ -10,6 +11,7 @@ from steganography.utils.misc import (
     HashFunction,
     DEFAULT_ENCRYPTION_KEY,
 )
+from steganography.utils.bit_manipulation import set_lsb_bit
 from steganography.utils.pixel_manipulation import (
     encode_image_to_rgb_and_alpha_array,
     embed_bits_in_pixels,
@@ -69,10 +71,14 @@ def encode_file_in_image(
         AES_key = bytes(encryption_key.encode())
     hash_func: Optional[HashFunction] = hash_file if hashing else None
     width, height = image.size
-    rgb, alphas = encode_image_to_rgb_and_alpha_array(image)
+    argb, alphas = encode_image_to_rgb_and_alpha_array(image)
+    rgb = argb[1:]
+    lsb_val = argb[0]
+    new_lsb_val = set_lsb_bit(lsb_val, n_lsb)
     embeded_rgb = _encode_file_in_pixels(
         rgb, file_bytes, file_name, AES_key, n_lsb, hash_func
     )
-    new_flatt_image_array = combine_rgb_and_alpha(embeded_rgb, alphas)
+    new_rgb: NDArray = np.insert(embeded_rgb, 0, new_rgb)
+    new_flatt_image_array = combine_rgb_and_alpha(new_rgb, alphas)
     new_image_array = build_pixel_array(new_flatt_image_array, width, height)
     return Image.fromarray(new_image_array)
