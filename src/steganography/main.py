@@ -5,7 +5,7 @@ from pathlib import Path
 
 def _init_argparser() -> ArgumentParser:
     parser = ArgumentParser(prog="steganography")
-    subparsers = parser.add_subparsers()
+    subparsers = parser.add_subparsers(required=True)
     embed = subparsers.add_parser("embed", help="Embeding")
     extract = subparsers.add_parser("extract", help="Extracting")
     embed.add_argument(
@@ -52,4 +52,4 @@ def main(*argv: str) -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main("embed", "-h"))
+    raise SystemExit(main())
