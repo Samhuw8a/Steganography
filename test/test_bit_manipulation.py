@@ -1,6 +1,15 @@
 import pytest
+from bitlist import bitlist
 
-from steganography.utils.bit_manipulation import set_bit, set_LSB
+from steganography.utils.bit_manipulation import set_bit, set_LSB, set_lsb_bit
+from hypothesis import given
+from hypothesis.strategies import integers
+
+
+@given(integers(min_value=0, max_value=255), integers(min_value=1, max_value=8))
+def test_set_lsb_bit(val: int, lsb: int) -> None:
+    bits = list(bitlist(lsb - 1, length=3))
+    assert set_lsb_bit(val, lsb) == set_LSB(val, 3, bits)
 
 
 def test_set_bit() -> None:

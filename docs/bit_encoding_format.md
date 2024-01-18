@@ -1,6 +1,6 @@
 # Bit Format
 #### META
-- Erstes R-Val des Bildes hat die Anzahl der LSB, die verändert worden sind. (immer die 2 LSB)
+- Erstes R-Val des Bildes hat die Anzahl der LSB, die verändert worden sind. (immer die 3 LSB +1)
 - File-Hash (Sha256, 256 bits)
 - File-Name (Ascii-String)
 ----
