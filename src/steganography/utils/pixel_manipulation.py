@@ -54,6 +54,7 @@ def embed_bits_in_pixels(pixels: NDArray, bits: bitlist, n_LSB: int) -> NDArray:
     for i, el in enumerate(zip(pixels, chunked(bits, n_LSB))):
         p, lsb = el
         p = set_LSB(p, n_LSB, lsb)
+        new[i] = p
     return new
 
 

@@ -7,7 +7,7 @@ __all__ = ["set_bit", "set_LSB", "set_lsb_bit"]
 
 
 def set_lsb_bit(pixel: int, n_lsb: int) -> int:
-    bits = bitlist(n_lsb - 1, length=3)
+    bits = bitlist(n_lsb - 1, length=3)[::-1]
     return set_LSB(pixel, 3, list(bits))
 
 

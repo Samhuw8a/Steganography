@@ -48,7 +48,7 @@ def _encode_file_in_pixels(
 
 
 def encode_file_in_image(
-    file: IO[bytes],
+    file_bytes: bytes,
     file_name: str,
     image: Img,
     n_lsb: int,
@@ -64,7 +64,6 @@ def encode_file_in_image(
     :param encryption_key: the key used for encryption. If it is not specified, a default key is used.
     :return: Modified Image
     """
-    file_bytes = file.read()
     if encryption_key is None:
         AES_key = DEFAULT_ENCRYPTION_KEY
     else:
@@ -79,6 +78,14 @@ def encode_file_in_image(
         rgb, file_bytes, file_name, AES_key, n_lsb, hash_func
     )
     new_rgb: NDArray = np.insert(embeded_rgb, 0, new_lsb_val)
+    from steganography.decode import _get_n_lsb_from_list_of_bitlists
+    from bitlist import bitlist
+
+    print(
+        _get_n_lsb_from_list_of_bitlists(
+            [bitlist(int(i)) for i in new_rgb], n_lsb
+        ).to_bytes()[:300]
+    )
     new_flatt_image_array = combine_rgb_and_alpha(new_rgb, alphas)
     new_image_array = build_pixel_array(new_flatt_image_array, width, height)
     return Image.fromarray(new_image_array)

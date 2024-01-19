@@ -76,8 +76,8 @@ def build_bits_for_file(
     else:
         bits = ""
     compressed = _compress_file(file_content)
-    ecrypted = encrypt(encryption_key, compressed, False)
-    with_tag = _add_seperator_tag_to_file(ecrypted, STEG_TAG)
+    encrypted = encrypt(encryption_key, compressed, False)
+    with_tag = _add_seperator_tag_to_file(encrypted, STEG_TAG)
     file = bitlist(with_tag)
     filename_bits = bitlist(bytes(file_name.encode()))
     bits += filename_bits.bin() + file.bin()
@@ -103,7 +103,7 @@ def extract_file_and_metadata_from_raw_bits(
         extracted_bits = extracted_bits[256:]
 
     file_name, file_content = _seperate_filename_and_content(
-        extracted_bits, tag=STEG_TAG
+        extracted_bits, tag=steg_tag
     )
     decrypted = decrypt(encryption_key, file_content, False)
     decompressed = _decompress_file(decrypted)
