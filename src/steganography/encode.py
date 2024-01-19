@@ -78,7 +78,7 @@ def encode_file_in_image(
     embeded_rgb = _encode_file_in_pixels(
         rgb, file_bytes, file_name, AES_key, n_lsb, hash_func
     )
-    new_rgb: NDArray = np.insert(embeded_rgb, 0, new_rgb)
+    new_rgb: NDArray = np.insert(embeded_rgb, 0, new_lsb_val)
     new_flatt_image_array = combine_rgb_and_alpha(new_rgb, alphas)
     new_image_array = build_pixel_array(new_flatt_image_array, width, height)
     return Image.fromarray(new_image_array)
