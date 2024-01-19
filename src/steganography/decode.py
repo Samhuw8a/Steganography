@@ -1,14 +1,12 @@
 from __future__ import annotations
 from PIL.Image import Image as Img
-from PIL import Image
-from typing import IO, Tuple, Optional, List
+from typing import Tuple, Optional, List
 from numpy.typing import NDArray
-import numpy as np
 from bitlist import bitlist
 from steganography.utils.pixel_manipulation import encode_image_to_rgb_and_alpha_array
 from steganography.bit_format import extract_file_and_metadata_from_raw_bits
 from steganography.utils.misc import DEFAULT_ENCRYPTION_KEY
-from steganography.utils.hashing import validate_hash, hash_file
+from steganography.utils.hashing import validate_hash
 
 
 def _get_n_lsb_from_list_of_bitlists(bits: List[bitlist], n_lsb: int) -> bitlist:
