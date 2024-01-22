@@ -8,7 +8,7 @@ from hypothesis.strategies import integers
 
 @given(integers(min_value=0, max_value=255), integers(min_value=1, max_value=8))
 def test_set_lsb_bit(val: int, lsb: int) -> None:
-    bits = list(bitlist(lsb - 1, length=3))
+    bits = list(bitlist(lsb - 1, length=3))[::-1]
     assert set_lsb_bit(val, lsb) == set_LSB(val, 3, bits)
 
 

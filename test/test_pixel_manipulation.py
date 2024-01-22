@@ -92,3 +92,14 @@ def test_seperate_and_combine_reversal_int(a: NDArray) -> None:
 )
 def test_seperate_and_combine_reversal_str(a: NDArray) -> None:
     assert np.array_equal(a, combine_rgb_and_alpha(*_seperate_rgb_and_alpha(a)))
+
+
+@given(
+    arrays(int, 100, elements=integers()),
+    integers(min_value=1, max_value=8),
+    integers(min_value=1, max_value=10 ^ 8),
+)
+def set_get_lsb_bytes_from_pixels_reversal(pixels: NDArray, n_lsb: int, bits: int):
+    assert bits == get_LSB_bytes_from_pixels(
+        embed_bits_in_pixels(pixels, bits, n_lsb), n_lsb
+    )

@@ -45,6 +45,8 @@ def decode_file_from_image(
         encryption_key = password  # type:ignore
     rgb, alpha = encode_image_to_rgb_and_alpha_array(image)
     n_lsb, lsb_bits = _decode_bits_from_pixels(rgb)
+    print(n_lsb)
+    print()
     print(lsb_bits.to_bytes()[:300])
     file_hash, file_name, file_bytes = extract_file_and_metadata_from_raw_bits(
         lsb_bits, encryption_key, hashing
