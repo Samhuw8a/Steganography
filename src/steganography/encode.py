@@ -39,6 +39,8 @@ def _encode_file_in_pixels(
     bits = build_bits_for_file(
         file_content, file_name, hash_func, encryption_key, steg_tag=STEG_TAG
     )
+    print(bits.to_bytes())
+    print(len(bits))
     if len(bits) > max_size:
         raise PayloadSizeError(
             "the File and filename are too big to store into the Image"

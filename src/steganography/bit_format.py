@@ -5,6 +5,7 @@ from numpy.typing import NDArray
 from bitlist import bitlist
 from steganography.utils.misc import HashFunction
 from steganography.utils.encryption import encrypt, decrypt
+from steganography.utils.bit_manipulation import convert_bitlist_to_bytes
 from typing import Tuple, Union
 
 
@@ -39,7 +40,7 @@ def _seperate_filename_and_content(
     bits: bitlist, tag: bytes = STEG_TAG
 ) -> Tuple[bytes, bytes]:
     """Seperate filename and file_content by spliting on tag"""
-    filename, _, content = bits.to_bytes().partition(tag)
+    filename, _, content = convert_bitlist_to_bytes(bits).partition(tag)
     content = content.split(tag)[0]
     return filename, content
 

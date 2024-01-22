@@ -1,9 +1,17 @@
 from __future__ import annotations
 from collections.abc import Sequence
 from bitlist import bitlist
+from more_itertools import chunked
 from typing import Union
 
 __all__ = ["set_bit", "set_LSB", "set_lsb_bit"]
+
+
+def convert_bitlist_to_bytes(bits: bitlist) -> bytes:
+    conv_bytes = bytes()
+    for b in chunked(bits, 8):
+        conv_bytes += bitlist(b).to_bytes()
+    return conv_bytes
 
 
 def set_lsb_bit(pixel: int, n_lsb: int) -> int:
