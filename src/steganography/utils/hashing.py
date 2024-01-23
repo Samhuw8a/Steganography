@@ -1,7 +1,9 @@
 from __future__ import annotations
-from bitlist import bitlist
+
 import hashlib
 from typing import Union
+
+from bitlist import bitlist
 
 StringOrBytes = Union[str, bytes]
 __all__ = ["hash_file", "validate_hash", "string_to_bitlist", "bitlist_to_string"]

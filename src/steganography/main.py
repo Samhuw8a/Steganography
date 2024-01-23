@@ -1,10 +1,13 @@
 from __future__ import annotations
-from steganography.decode import decode_file_from_image
-from steganography.encode import encode_file_in_image
-from typing import Optional, Sequence
+
 from argparse import ArgumentParser
 from pathlib import Path
+from typing import Optional, Sequence
+
 from PIL import Image
+
+from steganography.decode import decode_file_from_image
+from steganography.encode import encode_file_in_image
 
 
 def _init_argparser() -> ArgumentParser:

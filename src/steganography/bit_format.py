@@ -1,13 +1,14 @@
 from __future__ import annotations
-import lzma
-from typing import Optional
-from numpy.typing import NDArray
-from bitlist import bitlist
-from steganography.utils.misc import HashFunction
-from steganography.utils.encryption import encrypt, decrypt
-from steganography.utils.bit_manipulation import convert_bitlist_to_bytes
-from typing import Tuple, Union
 
+import lzma
+from typing import Optional, Tuple, Union
+
+from bitlist import bitlist
+from numpy.typing import NDArray
+
+from steganography.utils.bit_manipulation import convert_bitlist_to_bytes
+from steganography.utils.encryption import decrypt, encrypt
+from steganography.utils.misc import HashFunction
 
 __all__ = [
     "build_bits_for_file",

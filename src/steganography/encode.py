@@ -1,25 +1,26 @@
 from __future__ import annotations
-from typing import IO, Optional
 
-from numpy.typing import NDArray
+from typing import Optional
+
 import numpy as np
-from PIL.Image import Image as Img
+from numpy.typing import NDArray
 from PIL import Image
+from PIL.Image import Image as Img
 
-from steganography.utils.misc import (
-    PayloadSizeError,
-    HashFunction,
-    DEFAULT_ENCRYPTION_KEY,
-)
-from steganography.utils.bit_manipulation import set_lsb_bit
-from steganography.utils.pixel_manipulation import (
-    encode_image_to_rgb_and_alpha_array,
-    embed_bits_in_pixels,
-    combine_rgb_and_alpha,
-    build_pixel_array,
-)
-from steganography.utils.hashing import hash_file
 from steganography.bit_format import STEG_TAG, build_bits_for_file, get_max_payload_size
+from steganography.utils.bit_manipulation import set_lsb_bit
+from steganography.utils.hashing import hash_file
+from steganography.utils.misc import (
+    DEFAULT_ENCRYPTION_KEY,
+    HashFunction,
+    PayloadSizeError,
+)
+from steganography.utils.pixel_manipulation import (
+    build_pixel_array,
+    combine_rgb_and_alpha,
+    embed_bits_in_pixels,
+    encode_image_to_rgb_and_alpha_array,
+)
 
 __all__ = ["encode_file_in_image"]
 

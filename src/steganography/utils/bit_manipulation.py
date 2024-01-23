@@ -1,8 +1,10 @@
 from __future__ import annotations
+
 from collections.abc import Sequence
+from typing import Union
+
 from bitlist import bitlist
 from more_itertools import chunked
-from typing import Union
 
 __all__ = ["set_bit", "set_LSB", "set_lsb_bit"]
 

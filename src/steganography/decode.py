@@ -1,12 +1,15 @@
 from __future__ import annotations
-from PIL.Image import Image as Img
-from typing import Tuple, Optional, List
-from numpy.typing import NDArray
+
+from typing import List, Optional, Tuple
+
 from bitlist import bitlist
-from steganography.utils.pixel_manipulation import encode_image_to_rgb_and_alpha_array
+from numpy.typing import NDArray
+from PIL.Image import Image as Img
+
 from steganography.bit_format import extract_file_and_metadata_from_raw_bits
-from steganography.utils.misc import DEFAULT_ENCRYPTION_KEY
 from steganography.utils.hashing import validate_hash
+from steganography.utils.misc import DEFAULT_ENCRYPTION_KEY
+from steganography.utils.pixel_manipulation import encode_image_to_rgb_and_alpha_array
 
 __all__ = ["decode_file_from_image"]
 
