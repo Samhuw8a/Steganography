@@ -1,10 +1,21 @@
 from __future__ import annotations
 
 from argparse import Namespace
+from pathlib import Path
 
 from PIL import Image, UnidentifiedImageError
 
 from steganography.encode import encode_file_in_image
+
+
+def image_is_valid(path: str):
+    try:
+        f = Path(path)
+    except Exception:
+        return False
+    if not f.suffix == ".png":
+        return False
+    return True
 
 
 def embed(args: Namespace) -> int:
@@ -20,6 +31,8 @@ def embed(args: Namespace) -> int:
     encryption_key = args.password
     new_name = image_path.name
     if args.output is not None:
+        if not image_is_valid(args.output):
+            raise FileNotFoundError(f"{args.output} is not a valid image format")
         new_name = args.output
     try:
         image = Image.open(image_path)
