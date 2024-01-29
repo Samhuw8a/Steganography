@@ -3,7 +3,6 @@ from __future__ import annotations
 from argparse import ArgumentParser
 from pathlib import Path
 
-
 from steganography.embed_cmd import embed
 from steganography.extract_cmd import extract
 

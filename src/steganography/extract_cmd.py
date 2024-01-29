@@ -1,7 +1,10 @@
 from __future__ import annotations
+
 from argparse import Namespace
-from steganography.decode import decode_file_from_image
+
 from PIL import Image
+
+from steganography.decode import decode_file_from_image
 
 
 def extract(args: Namespace) -> int:

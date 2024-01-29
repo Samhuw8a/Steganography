@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 from argparse import Namespace
+
 from PIL import Image
+
 from steganography.encode import encode_file_in_image
 
 
