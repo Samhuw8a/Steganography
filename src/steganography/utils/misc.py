@@ -17,3 +17,15 @@ class ImageModeError(TypeError):
 
 class PayloadSizeError(ValueError):
     pass
+
+
+class ExtractionError(ValueError):
+    pass
+
+
+class FileNameError(ExtractionError):
+    pass
+
+
+class FileError(ExtractionError):
+    pass

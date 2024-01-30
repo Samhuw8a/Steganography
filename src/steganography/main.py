@@ -5,7 +5,7 @@ from pathlib import Path
 
 from steganography.embed_cmd import embed
 from steganography.extract_cmd import extract
-from steganography.utils.misc import ImageModeError, ImageTypeError
+from steganography.utils.misc import ImageModeError, ImageTypeError, ExtractionError
 
 
 def _init_argparser() -> ArgumentParser:
@@ -61,7 +61,12 @@ def main(*argv: str) -> int:
     if args.mode in ("extract", "ex"):
         try:
             return extract(args)
-        except (FileNotFoundError, ImageTypeError, ImageModeError) as e:
+        except (
+            FileNotFoundError,
+            ImageTypeError,
+            ImageModeError,
+            ExtractionError,
+        ) as e:
             print(e)
             return 1
     return 0
