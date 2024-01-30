@@ -114,7 +114,10 @@ def extract_file_and_metadata_from_raw_bits(
     file_name, file_content = _seperate_filename_and_content(
         recovered_bytes, tag=steg_tag
     )
-    decrypted = decrypt(encryption_key, file_content, False)
+    try:
+        decrypted = decrypt(encryption_key, file_content, False)
+    except ValueError:
+        raise FileError("The Password is not correct.")
     decompressed = _decompress_file(decrypted)
 
     try:

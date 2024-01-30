@@ -21,7 +21,6 @@ def extract(args: Namespace) -> int:
     except UnidentifiedImageError:
         raise FileNotFoundError(f"{image_path} is not a valid Image")
 
-    # Check for false user input (password)
     file_name, file_bytes = decode_file_from_image(image, encryption_key, hashing)
     with open(file_name, "wb") as f:
         f.write(file_bytes)
