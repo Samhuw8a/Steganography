@@ -63,6 +63,10 @@ def encode_file_in_image(
     :param encryption_key: the key used for encryption. If it is not specified, a default key is used.
     :return: Modified Image
     """
+    if not isinstance(file_name, str):
+        raise ValueError("The filename must be of type 'str'")
+    if not isinstance(file_bytes, bytes):
+        raise ValueError("The file_bytes must be of type 'bytes'")
     if encryption_key is None:
         AES_key = DEFAULT_ENCRYPTION_KEY
     else:

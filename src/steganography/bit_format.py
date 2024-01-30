@@ -8,7 +8,7 @@ from numpy.typing import NDArray
 
 from steganography.utils.bit_manipulation import convert_bitlist_to_bytes
 from steganography.utils.encryption import decrypt, encrypt
-from steganography.utils.misc import HashFunction
+from steganography.utils.misc import HashFunction, FileNameError, FileError
 
 __all__ = [
     "build_bits_for_file",
@@ -38,10 +38,10 @@ def _add_seperator_tag_to_file(file: Union[str, bytes], tag: bytes) -> bytes:
 
 
 def _seperate_filename_and_content(
-    bits: bitlist, tag: bytes = STEG_TAG
+    recovered_bytes: bitlist, tag: bytes = STEG_TAG
 ) -> Tuple[bytes, bytes]:
     """Seperate filename and file_content by spliting on tag"""
-    filename, _, content = convert_bitlist_to_bytes(bits).partition(tag)
+    filename, _, content = recovered_bytes.partition(tag)
     content = content.split(tag)[0]
     return filename, content
 
@@ -104,10 +104,29 @@ def extract_file_and_metadata_from_raw_bits(
         file_hash = extracted_bits[:256]
         extracted_bits = extracted_bits[256:]
 
+    recovered_bytes = convert_bitlist_to_bytes(extracted_bits)
+    n = recovered_bytes.count(steg_tag)
+    if n == 1:
+        raise FileError("The File is not decoded correctly. Try again with --no-hash")
+    elif n != 2:
+        raise FileError("The File is not compatible with this Programm.")
+
     file_name, file_content = _seperate_filename_and_content(
-        extracted_bits, tag=steg_tag
+        recovered_bytes, tag=steg_tag
     )
-    decrypted = decrypt(encryption_key, file_content, False)
+    try:
+        decrypted = decrypt(encryption_key, file_content, False)
+    except ValueError:
+        raise FileError("The Password is not correct.")
     decompressed = _decompress_file(decrypted)
 
-    return (file_hash.hex() if hashing else None, file_name.decode(), decompressed)
+    try:
+        decoded_filename = file_name.decode()
+    except UnicodeDecodeError as e:
+        if not hashing:
+            raise FileNameError(
+                "The Filename does not seem to be correct. Try again without --no-hash"
+            )
+        raise e
+
+    return (file_hash.hex() if hashing else None, decoded_filename, decompressed)

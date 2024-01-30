@@ -8,7 +8,7 @@ from PIL.Image import Image as Img
 
 from steganography.bit_format import extract_file_and_metadata_from_raw_bits
 from steganography.utils.hashing import validate_hash
-from steganography.utils.misc import DEFAULT_ENCRYPTION_KEY
+from steganography.utils.misc import DEFAULT_ENCRYPTION_KEY, FileError
 from steganography.utils.pixel_manipulation import encode_image_to_rgb_and_alpha_array
 
 __all__ = ["decode_file_from_image"]
@@ -54,8 +54,7 @@ def decode_file_from_image(
     )
     if file_hash:
         if not validate_hash(file_hash, file_bytes):
-            # TODO Raise high Level Error
-            raise NotImplementedError
-    # TODO Parameter checking
-    # TODO check if there is no hashing in the file by catching errors
+            raise FileError(
+                "The File does not match the hash. The image might be corrupted."
+            )
     return file_name, file_bytes
