@@ -24,7 +24,7 @@ def _get_n_lsb_from_list_of_bitlists(bits: List[bitlist], n_lsb: int) -> bitlist
 
 def _decode_bits_from_pixels(pixels: NDArray) -> Tuple[int, bitlist]:
     """Transforms pixels array and returns the lsb bits"""
-    # TODO ausbessern
+    # TODO Code übersichtlicher machen
     pixel_bits = [bitlist(int(i), length=8) for i in pixels]
     n_lsb_bits = pixel_bits[0][-3:].bin()
     n_lsb = int(n_lsb_bits, 2) + 1
