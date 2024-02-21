@@ -108,25 +108,34 @@ def extract_file_and_metadata_from_raw_bits(
         file_hash = extracted_bits[:256]
         extracted_bits = extracted_bits[256:]
 
+    # Convert the lsb bits to bytes
     recovered_bytes = convert_bitlist_to_bytes(extracted_bits)
+
+    # Validate that there are valid Tags
     n = recovered_bytes.count(steg_tag)
     if n == 1:
+        # If there is only one Tag, there might have been a wrong assumption on the user end
         raise FileError("The File is not decoded correctly. Try again with --no-hash")
     elif n != 2:
+        # If there are no tags the Image is not compatible with this Program
         raise FileError("The File is not compatible with this Programm.")
 
+    # get filename and data by spliting on the [STEG] tag
     file_name, file_content = _seperate_filename_and_content(
         recovered_bytes, tag=steg_tag
     )
     try:
         decrypted = decrypt(encryption_key, file_content, False)
     except ValueError:
+        # If the decryption fails, then we assume that the password is false
         raise FileError("The Password is not correct.")
+    # decompress the file
     decompressed = _decompress_file(decrypted)
 
     try:
         decoded_filename = file_name.decode()
     except UnicodeDecodeError as e:
+        # If the filename is not valid UTF-8, the filehash might be included in the name
         if not hashing:
             raise FileNameError(
                 "The Filename does not seem to be correct. Try again without --no-hash"
