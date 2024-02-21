@@ -77,11 +77,15 @@ def build_bits_for_file(
         bits = file_hash.bin()
     else:
         bits = ""
+    # Compress the bytes
     compressed = _compress_file(file_content)
+    # Encrypt those bytes
     encrypted = encrypt(encryption_key, compressed, False)
+    # Add the [STEG] tag to the start and end of the bytes
     with_tag = _add_seperator_tag_to_file(encrypted, STEG_TAG)
     file = bitlist(with_tag)
     filename_bits = bitlist(bytes(file_name.encode()))
+    # Add the filename and data bits to the hash bits
     bits += filename_bits.bin() + file.bin()
     return bitlist(bits)
 

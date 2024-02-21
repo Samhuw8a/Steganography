@@ -54,12 +54,15 @@ def main(*argv: str) -> int:
     args = parser.parse_args(argv or None)
     if args.mode in ("embed", "em"):
         try:
+            # Run the embeding Process
             return embed(args)
         except (FileNotFoundError, ImageTypeError, ImageModeError) as e:
+            # Check for any known/expected Errors and give the user feedback
             print(e)
             return 1
     if args.mode in ("extract", "ex"):
         try:
+            # Run the exctraction Process
             return extract(args)
         except (
             FileNotFoundError,
@@ -67,6 +70,7 @@ def main(*argv: str) -> int:
             ImageModeError,
             ExtractionError,
         ) as e:
+            # Check for any known/expected Errors and give the user feedback
             print(e)
             return 1
     return 0
