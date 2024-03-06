@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from collections.abc import Sequence
-from typing import Union
+from collections.abc import Sequence, MutableSequence
+from typing import Union, TypeVar
 
 from bitlist import bitlist
 from more_itertools import chunked
@@ -9,7 +9,11 @@ from more_itertools import chunked
 __all__ = ["set_bit", "set_LSB", "set_lsb_bit"]
 
 
+T = TypeVar("T")
+
+
 def convert_bitlist_to_bytes(bits: bitlist) -> bytes:
+    # TODO make linear for data which does not fit in to n_lsb sized blocks
     conv_bytes = bytes()
     for b in chunked(bits, 8):
         conv_bytes += bitlist(b).to_bytes()
@@ -35,12 +39,26 @@ def set_bit(v: int, index: int, x: Union[int, bool]) -> int:
     return v
 
 
-def set_LSB(v: int, n: int, x: Sequence[Union[int, bool]]) -> int:
+def _pad_sequence_with_last_el(
+    seq: MutableSequence[T], length: int
+) -> MutableSequence[T]:
+    """pad a Sequence with to last elements so that it is the given length"""
+    padding_len: int = length - len(seq)
+    last: T = seq[:-1]  # type:ignore
+    if padding_len > 0:
+        seq.extend(last for i in range(padding_len))
+    assert len(seq) == length
+    return seq
+
+
+def set_LSB(v: int, n: int, x: MutableSequence[Union[int, bool]]) -> int:
     """set the n LSB's to the corresponding value in x"""
-    if len(x) != n:
+    if len(x) > n:
         raise ValueError("x must contain n elements")
-    if not 0 < n <= 8:
+    elif not 0 < n <= 8:
         raise ValueError("n has to be between 1 and 8")
+    elif len(x) < n:
+        x = _pad_sequence_with_last_el(x, n)
     for i in range(n):
         v = set_bit(v, i, x[i])
     return v
