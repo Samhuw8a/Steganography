@@ -56,9 +56,12 @@ def embed_bits_in_pixels(pixels: NDArray, bits: bitlist, n_LSB: int) -> NDArray:
     new = deepcopy(pixels)
     for i, el in enumerate(zip(pixels, chunked(bits, n_LSB))):
         # TODO handle case where bits is not divisible by n_lsb
-        p, lsb = el
-        p = set_LSB(p, n_LSB, lsb)
-        new[i] = p
+        pixel, lsb = el
+        # ------------------
+        lsb = lsb[::-1]  # The solution to all my problems
+        # __________________
+        pixel = set_LSB(pixel, n_LSB, lsb)
+        new[i] = pixel
     return new
 
 
