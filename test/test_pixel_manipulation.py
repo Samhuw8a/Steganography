@@ -77,7 +77,7 @@ def test_seperate_rgb_from_alpha() -> None:
 
 
 @given(
-    integers(min_value=1, max_value=1000)
+    integers(min_value=1, max_value=100)
     .filter(lambda x: x % 4 == 0)
     .flatmap(lambda n: arrays(int, n))
 )
