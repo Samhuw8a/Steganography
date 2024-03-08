@@ -14,6 +14,9 @@ from steganography.utils.pixel_manipulation import encode_image_to_rgb_and_alpha
 __all__ = ["decode_file_from_image"]
 
 
+# TODO speed up and improve the get_n_lsb_bits workflow for performance
+
+
 def _get_n_lsb_from_list_of_bitlists(bits: List[bitlist], n_lsb: int) -> bitlist:
     """Get the n LSB from a list of 8 bit values and returns the bits"""
     # TODO Use Iterators
@@ -45,16 +48,22 @@ def decode_file_from_image(
     :param hashing: bool if hashing is encoded
     :return: Tuple[file_name, file_bytes]
     """
+    # if no password is provided, then we default to DEFAULT_ENCRYPTION_KEY
     if password is None:
         encryption_key = DEFAULT_ENCRYPTION_KEY
     else:
         encryption_key = password  # type:ignore
-    rgb, alpha = encode_image_to_rgb_and_alpha_array(image)
+
+    # get all the rgb pixels from the image
+    rgb, _ = encode_image_to_rgb_and_alpha_array(image)
+    # get the LSB bit and get all lsb-bits form the pixels
     n_lsb, lsb_bits = _decode_bits_from_pixels(rgb)
+    # get all the meta data and file data from the bits
     file_hash, file_name, file_bytes = extract_file_and_metadata_from_raw_bits(
         lsb_bits, encryption_key, hashing
     )
     if file_hash:
+        # Compare the file hash for validation
         if not validate_hash(file_hash, file_bytes):
             raise FileError(
                 "The File does not match the hash. The image might be corrupted."
