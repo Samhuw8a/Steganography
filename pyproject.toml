@@ -1,7 +1,7 @@
 [project]
 name = "steganography"
 
-version = "0.0.1"
+version = "0.1.0"
 
 description = "A module that implements LSB steganography encoding and decoding for PNG Images"
 
