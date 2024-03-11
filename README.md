@@ -4,4 +4,5 @@
 
 Eine Python Implementation von LSB-Steganographie mit AES-encryption und compression für unkomprimierte Bildformate.
 ## CLI
-[Usage](docs/main_usage.md)
+Das Programm bietet ein CLI mit welchem man Dateien *extracten* und *embeden* kann.
+Weiter Parameter findet man unter:[Usage](docs/main_usage.md)
