@@ -35,7 +35,6 @@ def _decode_bits_from_pixels(pixels: NDArray) -> Tuple[int, bitlist]:
 
     pixel_bits = (_convert_int_to_bitstring(i) for i in pixels[1:])
     # pixel_bits = (bitlist(int(i), length=8) for i in pixels[1:])
-    print("made bitlist generator")
 
     # Get the first 3 bits for The LSB bit's
     n_lsb_bits = _convert_int_to_bitstring(pixels[0])[-3:]
@@ -44,8 +43,6 @@ def _decode_bits_from_pixels(pixels: NDArray) -> Tuple[int, bitlist]:
 
     # get the n_lsb bits from each byte
     lsb_bits = _get_n_lsb_from_list_of_bitlists(pixel_bits, n_lsb)
-    print("read all lsb_bits")
-
     return (n_lsb, lsb_bits)
 
 
@@ -67,15 +64,12 @@ def decode_file_from_image(
 
     # get all the rgb pixels from the image
     rgb, _ = encode_image_to_rgb_and_alpha_array(image)
-    print("loaded rgb vals")
     # get the LSB bit and get all lsb-bits form the pixels
     n_lsb, lsb_bits = _decode_bits_from_pixels(rgb)
-    print("read n_lsb")
     # get all the meta data and file data from the bits
     file_hash, file_name, file_bytes = extract_file_and_metadata_from_raw_bits(
         lsb_bits, encryption_key, hashing
     )
-    print("finished meta data extraction")
     if file_hash:
         # Compare the file hash for validation
         if not validate_hash(file_hash, file_bytes):

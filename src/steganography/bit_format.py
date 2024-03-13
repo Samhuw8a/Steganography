@@ -107,11 +107,9 @@ def extract_file_and_metadata_from_raw_bits(
     if hashing:
         file_hash = extracted_bits[:256]
         extracted_bits = extracted_bits[256:]
-    print("split up file_hash")
 
     # Convert the lsb bits to bytes
     recovered_bytes = convert_bitlist_to_bytes(extracted_bits)
-    print("finished convert_bitlist_to_bytes")
 
     # Validate that there are valid Tags
     n = recovered_bytes.count(steg_tag)
@@ -126,7 +124,6 @@ def extract_file_and_metadata_from_raw_bits(
     file_name, file_content = _seperate_filename_and_content(
         recovered_bytes, tag=steg_tag
     )
-    print("split by tag")
     try:
         decrypted = decrypt(encryption_key, file_content, False)
     except ValueError:
@@ -144,6 +141,4 @@ def extract_file_and_metadata_from_raw_bits(
                 "The Filename does not seem to be correct. Try again without --no-hash"
             )
         raise e
-    print("decompressed")
-
     return (file_hash.hex() if hashing else None, decoded_filename, decompressed)
