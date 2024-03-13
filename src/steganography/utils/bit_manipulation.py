@@ -13,10 +13,11 @@ T = TypeVar("T")
 
 
 def convert_bitlist_to_bytes(bits: bitlist) -> bytes:
-    # TODO Speed up a LOT
     conv_bytes = bytes()
     for b in chunked(bits, 8):
-        conv_bytes += bitlist(b).to_bytes()
+        conv_bytes += int("".join(map(str, b)), 2).to_bytes(1, "big")
+        # Saves around 1%
+        # conv_bytes += bitlist(b).to_bytes()
     return conv_bytes
 
 

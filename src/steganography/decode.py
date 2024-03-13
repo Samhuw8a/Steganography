@@ -19,7 +19,6 @@ __all__ = ["decode_file_from_image"]
 
 def _get_n_lsb_from_list_of_bitlists(bits: Iterator[bitlist], n_lsb: int) -> bitlist:
     """Get the n LSB from a list of 8 bit values and returns the bits"""
-    # TODO Use Iterators
     lsb: str = ""
     for i in bits:
         lsb += i.bin()[-n_lsb:]
@@ -29,7 +28,6 @@ def _get_n_lsb_from_list_of_bitlists(bits: Iterator[bitlist], n_lsb: int) -> bit
 def _decode_bits_from_pixels(pixels: NDArray) -> Tuple[int, bitlist]:
     """Transforms pixels array and returns the lsb bits"""
     # TODO Code übersichtlicher machen
-    # TODO Use Iterators
 
     # convert all integers into bitlists
     pixel_bits = (bitlist(int(i), length=8) for i in pixels[1:])
