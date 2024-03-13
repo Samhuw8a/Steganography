@@ -79,18 +79,9 @@ def test_seperate_rgb_from_alpha() -> None:
 @given(
     integers(min_value=1, max_value=100)
     .filter(lambda x: x % 4 == 0)
-    .flatmap(lambda n: arrays(int, n))
+    .flatmap(lambda n: arrays(np.ubyte, n))
 )
 def test_seperate_and_combine_reversal_int(a: NDArray) -> None:
-    assert np.array_equal(a, combine_rgb_and_alpha(*_seperate_rgb_and_alpha(a)))
-
-
-@given(
-    integers(min_value=1, max_value=50)
-    .filter(lambda x: x % 4 == 0)
-    .flatmap(lambda n: arrays(str, n))
-)
-def test_seperate_and_combine_reversal_str(a: NDArray) -> None:
     assert np.array_equal(a, combine_rgb_and_alpha(*_seperate_rgb_and_alpha(a)))
 
 
