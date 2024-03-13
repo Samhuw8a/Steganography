@@ -34,8 +34,7 @@ def encode_image_to_rgb_and_alpha_array(image: Img) -> Tuple[NDArray, NDArray]:
     elif imgtype == "RGB":
         # If There are no Alpha values then write all zeroes
         rgb = np.array(image, dtype=np.ubyte).flatten()
-        # TODO use 255 instead of 0
-        alpha = np.zeros(len(rgb) // 3, dtype=np.ubyte)
+        alpha = np.full(len(rgb) // 3, 255, dtype=np.ubyte)
         return (rgb, alpha)
     elif imgtype != "RGBA":
         raise ImageModeError(f"Can't handle Imagemode: {imgtype}")

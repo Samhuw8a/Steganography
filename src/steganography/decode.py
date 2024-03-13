@@ -14,9 +14,6 @@ from steganography.utils.pixel_manipulation import encode_image_to_rgb_and_alpha
 __all__ = ["decode_file_from_image"]
 
 
-# TODO speed up and improve the get_n_lsb_bits workflow for performance
-
-
 def _get_n_lsb_from_list_of_bitlists(bits: Iterator[str], n_lsb: int) -> bitlist:
     """Get the n LSB from a list of 8 bit values and returns the bits"""
     lsb: str = ""
