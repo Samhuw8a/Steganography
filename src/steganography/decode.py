@@ -17,27 +17,37 @@ __all__ = ["decode_file_from_image"]
 # TODO speed up and improve the get_n_lsb_bits workflow for performance
 
 
-def _get_n_lsb_from_list_of_bitlists(bits: Iterator[bitlist], n_lsb: int) -> bitlist:
+def _get_n_lsb_from_list_of_bitlists(bits: Iterator[str], n_lsb: int) -> bitlist:
     """Get the n LSB from a list of 8 bit values and returns the bits"""
     lsb: str = ""
     for i in bits:
-        lsb += i.bin()[-n_lsb:]
+        lsb += i[-n_lsb]
     return bitlist(lsb)
+
+
+def _convert_int_to_bitstring(val: int) -> str:
+    """
+    convert each pixel value to a bin string 0b101...
+    remove prefix and pad with 0
+    """
+    return bin(val)[2:].zfill(8)
 
 
 def _decode_bits_from_pixels(pixels: NDArray) -> Tuple[int, bitlist]:
     """Transforms pixels array and returns the lsb bits"""
-    # TODO Code übersichtlicher machen
 
-    # convert all integers into bitlists
-    pixel_bits = (bitlist(int(i), length=8) for i in pixels[1:])
+    pixel_bits = (_convert_int_to_bitstring(i) for i in pixels[1:])
+    # pixel_bits = (bitlist(int(i), length=8) for i in pixels[1:])
+    print("made bitlist generator")
 
     # Get the first 3 bits for The LSB bit's
-    n_lsb_bits = bitlist(int(pixels[0]), length=8)[-3:].bin()
+    n_lsb_bits = _convert_int_to_bitstring(pixels[0])[-3:]
+    # n_lsb_bits = bitlist(int(pixels[0]), length=8)[-3:].bin()
     n_lsb = int(n_lsb_bits, 2) + 1
 
     # get the n_lsb bits from each byte
     lsb_bits = _get_n_lsb_from_list_of_bitlists(pixel_bits, n_lsb)
+    print("read all lsb_bits")
 
     return (n_lsb, lsb_bits)
 
@@ -60,12 +70,15 @@ def decode_file_from_image(
 
     # get all the rgb pixels from the image
     rgb, _ = encode_image_to_rgb_and_alpha_array(image)
+    print("loaded rgb vals")
     # get the LSB bit and get all lsb-bits form the pixels
     n_lsb, lsb_bits = _decode_bits_from_pixels(rgb)
+    print("read n_lsb")
     # get all the meta data and file data from the bits
     file_hash, file_name, file_bytes = extract_file_and_metadata_from_raw_bits(
         lsb_bits, encryption_key, hashing
     )
+    print("finished meta data extraction")
     if file_hash:
         # Compare the file hash for validation
         if not validate_hash(file_hash, file_bytes):
