@@ -33,15 +33,16 @@ def encode_image_to_rgb_and_alpha_array(image: Img) -> Tuple[NDArray, NDArray]:
         image = image.convert("RGBA")
     elif imgtype == "RGB":
         # If There are no Alpha values then write all zeroes
-        rgb = np.array(image).flatten()
-        alpha = np.zeros(len(rgb) // 3, dtype=int)
+        rgb = np.array(image, dtype=np.ubyte).flatten()
+        # TODO use 255 instead of 0
+        alpha = np.zeros(len(rgb) // 3, dtype=np.ubyte)
         return (rgb, alpha)
     elif imgtype != "RGBA":
         raise ImageModeError(f"Can't handle Imagemode: {imgtype}")
 
     assert image.mode == "RGBA"
     # read and split RGB and Alpha pixels
-    pixels = np.array(image).flatten()
+    pixels = np.array(image, dtype=np.ubyte).flatten()
     rgb, alpha = _seperate_rgb_and_alpha(pixels)
     return (rgb, alpha)
 
@@ -78,7 +79,7 @@ def combine_rgb_and_alpha(rgb: NDArray, alpha: NDArray) -> NDArray:
     for p, a in zip(chunked(rgb, 3), alpha):
         n.extend(p)
         n.append(a)
-    return np.array(n)
+    return np.array(n, dtype=np.ubyte)
 
 
 def _seperate_rgb_and_alpha(img_pixels: NDArray) -> Tuple[NDArray, NDArray]:

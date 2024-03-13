@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Iterator
 
 from bitlist import bitlist
 from numpy.typing import NDArray
@@ -17,7 +17,7 @@ __all__ = ["decode_file_from_image"]
 # TODO speed up and improve the get_n_lsb_bits workflow for performance
 
 
-def _get_n_lsb_from_list_of_bitlists(bits: List[bitlist], n_lsb: int) -> bitlist:
+def _get_n_lsb_from_list_of_bitlists(bits: Iterator[bitlist], n_lsb: int) -> bitlist:
     """Get the n LSB from a list of 8 bit values and returns the bits"""
     # TODO Use Iterators
     lsb: str = ""
@@ -32,14 +32,14 @@ def _decode_bits_from_pixels(pixels: NDArray) -> Tuple[int, bitlist]:
     # TODO Use Iterators
 
     # convert all integers into bitlists
-    pixel_bits = [bitlist(int(i), length=8) for i in pixels]
+    pixel_bits = (bitlist(int(i), length=8) for i in pixels[1:])
 
     # Get the first 3 bits for The LSB bit's
-    n_lsb_bits = pixel_bits[0][-3:].bin()
+    n_lsb_bits = bitlist(int(pixels[0]), length=8)[-3:].bin()
     n_lsb = int(n_lsb_bits, 2) + 1
 
     # get the n_lsb bits from each byte
-    lsb_bits = _get_n_lsb_from_list_of_bitlists(pixel_bits[1:], n_lsb)
+    lsb_bits = _get_n_lsb_from_list_of_bitlists(pixel_bits, n_lsb)
 
     return (n_lsb, lsb_bits)
 
