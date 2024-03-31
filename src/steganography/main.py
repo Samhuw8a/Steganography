@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from argparse import ArgumentParser
 from pathlib import Path
+from steganography._logging import logger
 
 from steganography.embed_cmd import embed
 from steganography.extract_cmd import extract
@@ -50,19 +51,24 @@ def _init_argparser() -> ArgumentParser:
 
 
 def main(*argv: str) -> int:
+    logger.debug("initialising the ArgumentParser")
     parser = _init_argparser()
+    logger.debug("parsing the CLI Arguments")
     args = parser.parse_args(argv or None)
     if args.mode in ("embed", "em"):
         try:
             # Run the embeding Process
+            logger.info("Starting the embeding Process")
             return embed(args)
         except (FileNotFoundError, ImageTypeError, ImageModeError) as e:
             # Check for any known/expected Errors and give the user feedback
-            print(e)
+            logger.warning(e)
+            logger.debug("Exit with statuscode 1")
             return 1
     if args.mode in ("extract", "ex"):
         try:
             # Run the exctraction Process
+            logger.info("Starting the Extracting Process")
             return extract(args)
         except (
             FileNotFoundError,
@@ -72,6 +78,8 @@ def main(*argv: str) -> int:
         ) as e:
             # Check for any known/expected Errors and give the user feedback
             print(e)
+            logger.warning(e)
+            logger.debug("Exit with statuscode 1")
             return 1
     return 0
 

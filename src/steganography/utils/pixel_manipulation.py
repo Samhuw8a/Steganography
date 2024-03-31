@@ -9,6 +9,7 @@ from more_itertools import chunked
 from numpy.typing import NDArray
 from PIL.Image import Image as Img
 
+from steganography._logging import logger
 from steganography.utils.bit_manipulation import set_LSB
 from steganography.utils.misc import ImageModeError, ImageTypeError
 
@@ -53,6 +54,7 @@ def embed_bits_in_pixels(pixels: NDArray, bits: bitlist, n_LSB: int) -> NDArray:
     if not 0 < n_LSB <= 8:
         raise ValueError("n has to be between 1 and 8")
 
+    logger.debug("looping over and writing all the bits to the LSB's")
     new = deepcopy(pixels)
     for i, el in enumerate(zip(pixels, chunked(bits, n_LSB))):
         pixel, lsb = el
