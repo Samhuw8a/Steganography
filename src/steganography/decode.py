@@ -6,6 +6,7 @@ from bitlist import bitlist
 from numpy.typing import NDArray
 from PIL.Image import Image as Img
 
+from steganography._logging import logger
 from steganography.bit_format import extract_file_and_metadata_from_raw_bits
 from steganography.utils.hashing import validate_hash
 from steganography.utils.misc import DEFAULT_ENCRYPTION_KEY, FileError
@@ -63,16 +64,23 @@ def decode_file_from_image(
         encryption_key = password  # type:ignore
 
     # get all the rgb pixels from the image
+    logger.debug("loading the individual RGB values")
     rgb, _ = encode_image_to_rgb_and_alpha_array(image)
     # get the LSB bit and get all lsb-bits form the pixels
+    logger.info("loading the LSB bits from the rgb values")
     n_lsb, lsb_bits = _decode_bits_from_pixels(rgb)
+    logger.debug(f"got: n_lsb= {n_lsb}")
     # get all the meta data and file data from the bits
+    logger.debug("extracting metadata from bits")
     file_hash, file_name, file_bytes = extract_file_and_metadata_from_raw_bits(
         lsb_bits, encryption_key, hashing
     )
+    logger.debug(f"got: file_name = {file_name}, file_hash = {file_hash}")
     if file_hash:
         # Compare the file hash for validation
+        logger.debug("comparing the file against the given hash")
         if not validate_hash(file_hash, file_bytes):
+            logger.debug("File hash is not equal to the given hash. Throwing FileError")
             raise FileError(
                 "The File does not match the hash. The image might be corrupted."
             )

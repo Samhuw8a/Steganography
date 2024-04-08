@@ -22,7 +22,7 @@ def image_is_valid(path: str):
 
 def embed(args: Namespace) -> int:
     image_path = args.target
-    logger.debug(f"loading the image_path; got:{image_path}")
+    logger.debug(f"loading the image_path. got: image_path = {image_path}")
     # Check if the Image, which the User provided is valid
     if not image_path.exists():
         logger.debug("image_path does not exist. Throwing FileNotFoundError")
