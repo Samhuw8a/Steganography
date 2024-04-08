@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from argparse import ArgumentParser
 from pathlib import Path
-from steganography._logging import logger
+from steganography._logging import logger, non_verbal_conf, debug_conf
 
 from steganography.embed_cmd import embed
 from steganography.extract_cmd import extract
@@ -46,6 +46,10 @@ def _init_argparser() -> ArgumentParser:
     embed.add_argument(
         "--no-hash", action="store_true", help="Der Hash der Datei nicht einbetten"
     )
+    extract.add_argument("-v", action="store_true", help="print additional info")
+    embed.add_argument("-v", action="store_true", help="print additional info")
+    extract.add_argument("-d", action="store_true", help="print debug information")
+    embed.add_argument("-d", action="store_true", help="print debug information")
 
     return parser
 
@@ -55,6 +59,12 @@ def main(*argv: str) -> int:
     parser = _init_argparser()
     logger.debug("parsing the CLI Arguments")
     args = parser.parse_args(argv or None)
+    if not args.v:
+        non_verbal_conf()
+
+    if args.d:
+        debug_conf()
+
     if args.mode in ("embed", "em"):
         try:
             # Run the embeding Process
@@ -85,4 +95,4 @@ def main(*argv: str) -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main("embed", "-t", "asdf", "-p", "adf"))
+    raise SystemExit(main("embed", "-t", "asdf", "-p", "adf", "-d"))
