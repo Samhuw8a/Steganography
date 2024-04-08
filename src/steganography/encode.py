@@ -85,7 +85,8 @@ def encode_file_in_image(
     hash_func: Optional[HashFunction] = hash_file if hashing else None
     # Get Image Dimensions
     width, height = image.size
-    logger.debug(f"reading the imagesize; got:{width}x{height}")
+    mode = image.mode
+    logger.debug(f"reading the imagesize; got:{width}x{height}  mode: {mode}")
     # read and seperate the RGB and Alpha values from the Image
     logger.debug("spliting the Image into RGB and Alpha chanel")
     argb, alphas = encode_image_to_rgb_and_alpha_array(image)
@@ -103,7 +104,10 @@ def encode_file_in_image(
     # combine the modified- and NLSB pixels and insert the alpha values
     logger.debug("reconstructing the full RGBA image from the 2 chanels")
     new_rgb: NDArray = np.insert(embeded_rgb, 0, new_lsb_val)
-    new_flatt_image_array = combine_rgb_and_alpha(new_rgb, alphas)
+    if mode != "RGB":
+        new_flatt_image_array = combine_rgb_and_alpha(new_rgb, alphas)
+    else:
+        new_flatt_image_array = new_rgb
     # reconstruct the Dimensions from the flatt array
     logger.info("creating new Image from the pixels")
     new_image_array = build_pixel_array(new_flatt_image_array, width, height)
