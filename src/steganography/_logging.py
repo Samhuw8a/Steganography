@@ -30,4 +30,5 @@ def non_verbal_conf() -> None:
 
 def debug_conf() -> None:
     logging_config["loggers"]["root"]["level"] = "DEBUG"
+    logging_config["formatters"]["simple"]["format"] = "%(levelname)s: %(message)s"
     logging.config.dictConfig(config=logging_config)
