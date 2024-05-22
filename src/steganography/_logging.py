@@ -22,6 +22,12 @@ logging.config.dictConfig(config=logging_config)
 logger = logging.getLogger("steganography")
 
 
+def no_conf() -> None:
+    logging_config["loggers"]["root"]["handlers"] = []
+    logging_config["loggers"]["root"]["level"] = "CRITICAL"
+    logging.config.dictConfig(config=logging_config)
+
+
 def non_verbal_conf() -> None:
     logging_config["formatters"]["simple"]["format"] = "%(message)s"
     logging_config["loggers"]["root"]["level"] = "WARN"
