@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from argparse import ArgumentParser
 from pathlib import Path
+from steganography._logging import logger, non_verbal_conf, debug_conf, no_conf
 
 from steganography.embed_cmd import embed
 from steganography.extract_cmd import extract
@@ -45,24 +46,42 @@ def _init_argparser() -> ArgumentParser:
     embed.add_argument(
         "--no-hash", action="store_true", help="Der Hash der Datei nicht einbetten"
     )
+    extract.add_argument("-v", action="store_true", help="print additional info")
+    embed.add_argument("-v", action="store_true", help="print additional info")
+    extract.add_argument("-d", action="store_true", help="print debug information")
+    embed.add_argument("-d", action="store_true", help="print debug information")
+    extract.add_argument("-q", action="store_true", help="print no information")
+    embed.add_argument("-q", action="store_true", help="print no information")
 
     return parser
 
 
 def main(*argv: str) -> int:
+    logger.debug("initialising the ArgumentParser")
     parser = _init_argparser()
+    logger.debug("parsing the CLI Arguments")
     args = parser.parse_args(argv or None)
+    if not args.v:
+        non_verbal_conf()
+    if args.d:
+        debug_conf()
+    if args.q:
+        no_conf()
+
     if args.mode in ("embed", "em"):
         try:
             # Run the embeding Process
+            logger.info("Starting the embeding Process")
             return embed(args)
         except (FileNotFoundError, ImageTypeError, ImageModeError) as e:
             # Check for any known/expected Errors and give the user feedback
-            print(e)
+            logger.warning(e)
+            logger.debug("Exit with statuscode 1")
             return 1
     if args.mode in ("extract", "ex"):
         try:
             # Run the exctraction Process
+            logger.info("Starting the Extracting Process")
             return extract(args)
         except (
             FileNotFoundError,
@@ -71,10 +90,12 @@ def main(*argv: str) -> int:
             ExtractionError,
         ) as e:
             # Check for any known/expected Errors and give the user feedback
-            print(e)
+            # print(e)
+            logger.warning(e)
+            logger.debug("Exit with statuscode 1")
             return 1
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main("embed", "-t", "asdf", "-p", "adf"))
+    raise SystemExit(main("embed", "-t", "asdf", "-p", "adf", "-d"))
