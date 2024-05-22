@@ -111,4 +111,4 @@ def encode_file_in_image(
     # reconstruct the Dimensions from the flatt array
     logger.info("creating new Image from the pixels")
     new_image_array = build_pixel_array(new_flatt_image_array, width, height)
-    return Image.fromarray(new_image_array)
+    return Image.fromarray(new_image_array)  # type: ignore
