@@ -20,6 +20,9 @@ dynamic = ["dependencies"]
 dependencies = {file = ["requirements.txt"]}
 optional-dependencies = {dev = { file = ["dev_requirements.txt"] }}
 
+[project.scripts]
+steganography = "steganography:__main__"
+
 # This is configuration specific to the `setuptools` build backend.
 # If you are using a different build backend, you will need to change this.
 

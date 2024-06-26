@@ -98,4 +98,4 @@ def main(*argv: str) -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main("embed", "-t", "asdf", "-p", "adf", "-d"))
+    raise SystemExit(main())
