@@ -106,9 +106,6 @@ def encode_file_in_image(
     # if mode != "RGBA":
     logger.debug("reconstructing the full RGBA image from the 2 chanels")
     new_flatt_image_array = combine_rgb_and_alpha(new_rgb, alphas)
-    # else:
-    # logger.debug("writing the new RGB Values into ")
-    # new_flatt_image_array = new_rgb
     # reconstruct the Dimensions from the flatt array
     logger.info("creating new Image from the pixels")
     new_image_array = build_pixel_array(new_flatt_image_array, width, height)

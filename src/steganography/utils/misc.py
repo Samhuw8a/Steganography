@@ -1,5 +1,5 @@
 """
-Error definitions and String to bitlist conversion
+Error definitions
 """
 from __future__ import annotations
 
@@ -34,17 +34,3 @@ class FileNameError(ExtractionError):
 
 class FileError(ExtractionError):
     pass
-
-
-# def string_to_bitlist(string: StringOrBytes) -> bitlist:
-# if isinstance(string, str):
-# encoded = string.encode()
-# elif isinstance(string, bytes):
-# encoded = string
-# else:
-# raise ValueError("'string' must be of type str or bytes")
-# return bitlist(encoded)
-
-
-# def bitlist_to_string(bits: bitlist) -> str:
-# return bits.to_bytes().decode()
