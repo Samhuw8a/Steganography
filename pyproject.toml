@@ -7,7 +7,7 @@ description = "A module that implements LSB steganography encoding and decoding 
 
 readme = "README.md" 
 
-requires-python = ">=3.9"
+requires-python = "3.9"
 
 license = {file = "LICENSE"}
 
