@@ -34,6 +34,7 @@ def encode_image_to_rgb_and_alpha_array(image: Img) -> Tuple[NDArray, NDArray]:
         logger.warn("!The Image size will be altered!")
         image = image.convert("RGBA")
     elif imgtype == "RGB":
+        logger.warn("!The Image size will be altered!")
         # If There are no Alpha values then write all zeroes
         rgb = np.array(image, dtype=np.ubyte).flatten()
         alpha = np.full(len(rgb) // 3, 255, dtype=np.ubyte)

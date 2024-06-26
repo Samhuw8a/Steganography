@@ -1,6 +1,9 @@
+"""
+A Collection of Functions regarding setting and reading LSB bits from pixel values
+"""
 from __future__ import annotations
 
-from collections.abc import Sequence, MutableSequence
+from collections.abc import MutableSequence
 from typing import Union, TypeVar
 
 from bitlist import bitlist

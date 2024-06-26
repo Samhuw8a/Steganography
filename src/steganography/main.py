@@ -10,6 +10,10 @@ from steganography.utils.misc import ImageModeError, ImageTypeError, ExtractionE
 
 
 def _init_argparser() -> ArgumentParser:
+    """
+    Initialize the ArgumentParser and add all the needed flags
+    see; docs/main_usage.md
+    """
     parser = ArgumentParser(prog="steganography")
     subparsers = parser.add_subparsers(required=True, dest="mode")
     embed = subparsers.add_parser("embed", help="Embeding", aliases=["em"])
