@@ -129,3 +129,4 @@ cython_debug/
 
 # Static PNG's
 images/
+eval/out/*
