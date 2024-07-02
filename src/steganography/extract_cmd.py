@@ -7,6 +7,10 @@ from PIL import Image, UnidentifiedImageError
 from steganography._logging import logger
 from steganography.decode import decode_file_from_image
 
+# FOR DEBUG USE ONLY
+COMPRESSION: bool = True
+# LEAVE AS TRUE
+
 
 def extract(args: Namespace) -> int:
     image_path = args.file
@@ -31,7 +35,9 @@ def extract(args: Namespace) -> int:
 
     # Decode the file from the image pixels
     logger.info("decoding File and meta data from Image")
-    file_name, file_bytes = decode_file_from_image(image, encryption_key, hashing)
+    file_name, file_bytes = decode_file_from_image(
+        image, encryption_key, hashing, compression=COMPRESSION
+    )
     with open(file_name, "wb") as f:
         # write the file
         logger.info("writing hidden File to disk")

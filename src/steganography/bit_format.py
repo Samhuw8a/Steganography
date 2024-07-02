@@ -62,6 +62,7 @@ def build_bits_for_file(
     hash_func: Optional[HashFunction],
     encryption_key: bytes,
     steg_tag: bytes = STEG_TAG,
+    compression: bool = True,
 ) -> bitlist:
     """
     Build to corect bits for embeding into the pixels. The NLSB pixel has to be encoded seperate.
@@ -78,9 +79,10 @@ def build_bits_for_file(
     else:
         bits = ""
     # Compress the bytes
-    compressed = _compress_file(file_content)
+    if compression:
+        file_content = _compress_file(file_content)
     # Encrypt those bytes
-    encrypted = encrypt(encryption_key, compressed, False)
+    encrypted = encrypt(encryption_key, file_content, False)
     # Add the [STEG] tag to the start and end of the bytes
     with_tag = _add_seperator_tag_to_file(encrypted, STEG_TAG)
     file = bitlist(with_tag)
@@ -95,6 +97,7 @@ def extract_file_and_metadata_from_raw_bits(
     encryption_key: bytes,
     hashing: bool = True,
     steg_tag: bytes = STEG_TAG,
+    compression: bool = True,
 ) -> Tuple[Optional[str], str, bytes]:
     """
     Get the file and corresponding metadata from to full set of bits. Not including NLSB bit.
@@ -130,8 +133,10 @@ def extract_file_and_metadata_from_raw_bits(
         # If the decryption fails, then we assume that the password is false
         raise FileError("The Password is not correct.")
     # decompress the file
-    decompressed = _decompress_file(decrypted)
-
+    if compression:
+        decompressed = _decompress_file(decrypted)
+    else:
+        decompressed = decrypted if isinstance(decrypted, bytes) else decrypted.encode()
     try:
         decoded_filename = file_name.decode()
     except UnicodeDecodeError as e:

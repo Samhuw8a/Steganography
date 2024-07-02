@@ -48,7 +48,7 @@ def _decode_bits_from_pixels(pixels: NDArray) -> Tuple[int, bitlist]:
 
 
 def decode_file_from_image(
-    image: Img, password: Optional[str], hashing: bool = True
+    image: Img, password: Optional[str], hashing: bool = True, compression: bool = True
 ) -> Tuple[str, bytes]:
     """
     Decode the hidden file from an Image and validate the result if hashing is enabled.
@@ -73,7 +73,7 @@ def decode_file_from_image(
     # get all the meta data and file data from the bits
     logger.debug("extracting metadata from bits")
     file_hash, file_name, file_bytes = extract_file_and_metadata_from_raw_bits(
-        lsb_bits, encryption_key, hashing
+        lsb_bits, encryption_key, hashing, compression=True
     )
     logger.debug(f"got: file_name = {file_name}, file_hash = {file_hash}")
     if file_hash:

@@ -8,6 +8,10 @@ from PIL import Image, UnidentifiedImageError
 from steganography._logging import logger
 from steganography.encode import encode_file_in_image
 
+# FOR DEBUG USE ONLY
+COMPRESSION: bool = True
+# LEAVE AS TRUE
+
 
 def image_is_valid(path: str):
     """Helper for checking if an Image exists"""
@@ -64,7 +68,13 @@ def embed(args: Namespace) -> int:
         # Run the main encoding algorithm
         logger.info("Encoding the Payload into the CoverImage ...")
         new_image = encode_file_in_image(
-            file_bytes, file_name, image, n_lsb, encryption_key, hashing
+            file_bytes,
+            file_name,
+            image,
+            n_lsb,
+            encryption_key,
+            hashing,
+            compression=COMPRESSION,
         )
         # Save the Modified Image
         logger.info("saving the new Image to disk")

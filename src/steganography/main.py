@@ -6,7 +6,12 @@ from steganography._logging import logger, non_verbal_conf, debug_conf, no_conf
 
 from steganography.embed_cmd import embed
 from steganography.extract_cmd import extract
-from steganography.utils.misc import ImageModeError, ImageTypeError, ExtractionError
+from steganography.utils.misc import (
+    ImageModeError,
+    ImageTypeError,
+    ExtractionError,
+    PayloadSizeError,
+)
 
 
 def _init_argparser() -> ArgumentParser:
@@ -92,6 +97,7 @@ def main(*argv: str) -> int:
             ImageTypeError,
             ImageModeError,
             ExtractionError,
+            PayloadSizeError,
         ) as e:
             # Check for any known/expected Errors and give the user feedback
             # print(e)

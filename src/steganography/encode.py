@@ -33,6 +33,7 @@ def _encode_file_in_pixels(
     encryption_key: bytes,
     n_lsb: int,
     hash_func: Optional[HashFunction],
+    compression: bool = True,
 ) -> NDArray:
     """encode the file and Metadata into a flattened rgb-array"""
     # Get the max_size
@@ -40,7 +41,12 @@ def _encode_file_in_pixels(
     # Convert raw bytes into the STEG-byte_format
     logger.debug("constructing the bits for encoding")
     bits = build_bits_for_file(
-        file_content, file_name, hash_func, encryption_key, steg_tag=STEG_TAG
+        file_content,
+        file_name,
+        hash_func,
+        encryption_key,
+        steg_tag=STEG_TAG,
+        compression=compression,
     )
     if len(bits) > max_size:
         # Check if those bits would be to big
@@ -64,6 +70,7 @@ def encode_file_in_image(
     n_lsb: int,
     encryption_key: Optional[str] = None,
     hashing: bool = True,
+    compression: bool = True,
 ) -> Img:
     """
     Encode file into image
@@ -99,7 +106,7 @@ def encode_file_in_image(
     # Modify the other pixels by writing the bytes of the file
     logger.info(f"Writing the payload into the last {n_lsb} bits of the Coverimage")
     embeded_rgb = _encode_file_in_pixels(
-        rgb, file_bytes, file_name, AES_key, n_lsb, hash_func
+        rgb, file_bytes, file_name, AES_key, n_lsb, hash_func, compression
     )
     # combine the modified- and NLSB pixels and insert the alpha values
     new_rgb: NDArray = np.insert(embeded_rgb, 0, new_lsb_val)
