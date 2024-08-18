@@ -82,7 +82,12 @@ def main(*argv: str) -> int:
             # Run the embeding Process
             logger.info("Starting the embeding Process")
             return embed(args)
-        except (FileNotFoundError, ImageTypeError, ImageModeError) as e:
+        except (
+            FileNotFoundError,
+            ImageTypeError,
+            ImageModeError,
+            PayloadSizeError,
+        ) as e:
             # Check for any known/expected Errors and give the user feedback
             logger.warning(e)
             logger.debug("Exit with statuscode 1")
