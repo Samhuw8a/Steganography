@@ -9,7 +9,7 @@ from steganography._logging import logger
 from steganography.encode import encode_file_in_image
 
 # FOR DEBUG USE ONLY
-COMPRESSION: bool = False
+COMPRESSION: bool = True
 # LEAVE AS TRUE
 
 
