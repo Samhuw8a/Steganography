@@ -24,14 +24,22 @@ def _init_argparser() -> ArgumentParser:
     embed = subparsers.add_parser("embed", help="Embeding", aliases=["em"])
     extract = subparsers.add_parser("extract", help="Extracting", aliases=["ex"])
     embed.add_argument(
-        "-t", "--target", required=True, type=Path, help="Pfad der target Datei"
+        "-t",
+        "--target",
+        required=True,
+        type=Path,
+        help="Path to the Image you want to target (CoverImage)",
     )
     embed.add_argument(
-        "-p", "--payload", required=True, type=Path, help="Pfad der payload Datei"
+        "-p",
+        "--payload",
+        required=True,
+        type=Path,
+        help="Path to the PayloadFile. The File you want to hide inside of the CoverImage",
     )
     extract.add_argument("file", type=Path, help="File with the hidden connent")
     embed.add_argument(
-        "--password", type=str, help="Passwort zum verschlüsseln der Datei"
+        "--password", type=str, help="The password for encrypting the file (optional)"
     )
     embed.add_argument(
         "-b",
@@ -39,21 +47,27 @@ def _init_argparser() -> ArgumentParser:
         default=1,
         type=int,
         choices=range(1, 9),
-        help="Die Anzahl an LSB's die überschrieben werden",
+        help="The Amount of Least Significant Bits wich are modified",
     )
     embed.add_argument(
-        "-o", "--output", type=Path, default=None, help="Pfad der output Datei"
+        "-o",
+        "--output",
+        type=Path,
+        default=None,
+        help="Path of the output File (StegoImage)",
     )
     extract.add_argument(
-        "--password", type=str, help="Passwort mit der die Datei verschlüsselt wurde"
+        "--password",
+        type=str,
+        help="password to decrypt the message (if no password was used to embed the file: leave blank)",
     )
     extract.add_argument(
         "--no-hash",
         action="store_true",
-        help="Der Hash der Datei wurde nicht eingebettet",
+        help="leave out the Hash (only use, whenn no Hash was used for embeding)",
     )
     embed.add_argument(
-        "--no-hash", action="store_true", help="Der Hash der Datei nicht einbetten"
+        "--no-hash", action="store_true", help="Dont include The Hash in the image"
     )
     extract.add_argument("-v", action="store_true", help="print additional info")
     embed.add_argument("-v", action="store_true", help="print additional info")
