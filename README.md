@@ -11,3 +11,21 @@ Eine Python Implementation von LSB-Steganographie mit AES-encryption und compres
 Das Programm bietet ein CLI mit welchem man Dateien *extracten* und *embeden* kann.
 
 Weiter Parameter findet man unter: [Usage](docs/main_usage.md).
+
+
+## Instalation
+Clone the repo onto your computer
+```sh
+git clone https://github.com/Samhuw8a/Steganography
+cd Steganography
+```
+
+install the Programm using pip
+```sh
+python -m pip install .
+```
+
+Now you can run the Programm by calling
+```sh
+steganography -h
+```
