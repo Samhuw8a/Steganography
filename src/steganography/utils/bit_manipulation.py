@@ -6,8 +6,12 @@ from __future__ import annotations
 from collections.abc import MutableSequence
 from typing import Union, TypeVar
 
+from steganography._logging import logger
+from steganography.utils.misc import FileError
+
 from bitlist import bitlist
 from more_itertools import chunked
+
 
 __all__ = ["set_bit", "set_LSB", "set_lsb_bit"]
 
@@ -18,11 +22,21 @@ T = TypeVar("T")
 def convert_bitlist_to_bytes(bits: bitlist) -> bytes:
     # TODO Optimize
     conv_bytes = bytes()
+    total = len(bits)
+    logger.debug(f"Get Lenth of all Bits: {total}")
     for b in chunked(bits, 8):
-        conv_bytes += int("".join(map(str, b)), 2).to_bytes(1, "big")
-        # Saves around 1%
-        # conv_bytes += bitlist(b).to_bytes()
-    return conv_bytes
+        byte = int("".join(map(str, b)), 2).to_bytes(1, "big")
+        conv_bytes += byte
+        if conv_bytes.count(bytes(b"[STEG]")) == 2:
+            break
+
+    # Validate that there are valid Tags
+    if conv_bytes.count(bytes(b"[STEG]")) == 1:
+        # If there is only one Tag, there might have been a wrong assumption on the user end
+        raise FileError("The File is not decoded correctly. Try again with --no-hash")
+    else:
+        # If there are no tags the Image is not compatible with this Program
+        raise FileError("The File is not compatible with this Programm.")
 
 
 def set_lsb_bit(pixel: int, n_lsb: int) -> int:
@@ -40,7 +54,8 @@ def set_bit(v: int, index: int, x: Union[int, bool]) -> int:
     v |= mask  # Set the bit indicated by the mask to True.
     v ^= (
         not x
-    ) * mask  # If x is True, do nothing (XOR with 0). If x is False, use the mask for clearing the bit indicated by the mask (XOR with 1 in the requested position).
+        # If x is True, do nothing (XOR with 0). If x is False, use the mask for clearing the bit indicated by the mask (XOR with 1 in the requested position).
+    ) * mask
     return v
 
 

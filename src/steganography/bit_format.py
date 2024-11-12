@@ -6,6 +6,7 @@ from typing import Optional, Tuple, Union
 from bitlist import bitlist
 from numpy.typing import NDArray
 
+from steganography._logging import logger
 from steganography.utils.bit_manipulation import convert_bitlist_to_bytes
 from steganography.utils.encryption import decrypt, encrypt
 from steganography.utils.misc import HashFunction, FileNameError, FileError
@@ -112,16 +113,8 @@ def extract_file_and_metadata_from_raw_bits(
         extracted_bits = extracted_bits[256:]
 
     # Convert the lsb bits to bytes
+    logger.debug("Converting Bits to Bytes")
     recovered_bytes = convert_bitlist_to_bytes(extracted_bits)
-
-    # Validate that there are valid Tags
-    n = recovered_bytes.count(steg_tag)
-    if n == 1:
-        # If there is only one Tag, there might have been a wrong assumption on the user end
-        raise FileError("The File is not decoded correctly. Try again with --no-hash")
-    elif n != 2:
-        # If there are no tags the Image is not compatible with this Program
-        raise FileError("The File is not compatible with this Programm.")
 
     # get filename and data by spliting on the [STEG] tag
     file_name, file_content = _seperate_filename_and_content(
