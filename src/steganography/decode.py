@@ -70,12 +70,6 @@ def decode_file_from_image(
     # get the LSB bit and get all lsb-bits form the pixels
     logger.info("loading the LSB bits from the rgb values")
     n_lsb, lsb_bits = _decode_bits_from_pixels(rgb)
-    with open("normal.dump", "w") as f:
-        f.write(str(lsb_bits))
-        f.write("\n")
-        f.write(str(n_lsb))
-        f.write("\n")
-        f.write(str(rgb[:20]))
     logger.debug(f"got: n_lsb= {n_lsb}")
     # get all the meta data and file data from the bits
     logger.debug("extracting metadata from bits")
