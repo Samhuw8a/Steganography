@@ -26,9 +26,10 @@ def convert_bitlist_to_bytes(bits: bitlist) -> bytes:
     logger.debug(f"Get Lenth of all Bits: {total}")
     for b in chunked(bits, 8):
         byte = int("".join(map(str, b)), 2).to_bytes(1, "big")
+        # byte = bitlist(b).to_bytes()
         conv_bytes += byte
         if conv_bytes.count(bytes(b"[STEG]")) == 2:
-            break
+            return conv_bytes
 
     # Validate that there are valid Tags
     if conv_bytes.count(bytes(b"[STEG]")) == 1:

@@ -19,7 +19,7 @@ def _get_n_lsb_from_list_of_bitlists(bits: Iterator[str], n_lsb: int) -> bitlist
     """Get the n LSB from a list of 8 bit values and returns the bits"""
     lsb: str = ""
     for i in bits:
-        lsb += i[-n_lsb]
+        lsb += i[-n_lsb:]  # SCH***S ':'
     return bitlist(lsb)
 
 
@@ -35,11 +35,12 @@ def _decode_bits_from_pixels(pixels: NDArray) -> Tuple[int, bitlist]:
     """Transforms pixels array and returns the lsb bits"""
 
     pixel_bits = (_convert_int_to_bitstring(i) for i in pixels[1:])
-    # pixel_bits = (bitlist(int(i), length=8) for i in pixels[1:])
+    # pixel_bits = [bitlist(int(i), length=8) for i in pixels]
 
     # Get the first 3 bits for The LSB bit's
     n_lsb_bits = _convert_int_to_bitstring(pixels[0])[-3:]
-    # n_lsb_bits = bitlist(int(pixels[0]), length=8)[-3:].bin()
+    # n_lsb_bits = pixel_bits[0][-3:].bin()
+
     n_lsb = int(n_lsb_bits, 2) + 1
 
     # get the n_lsb bits from each byte
@@ -69,6 +70,12 @@ def decode_file_from_image(
     # get the LSB bit and get all lsb-bits form the pixels
     logger.info("loading the LSB bits from the rgb values")
     n_lsb, lsb_bits = _decode_bits_from_pixels(rgb)
+    with open("normal.dump", "w") as f:
+        f.write(str(lsb_bits))
+        f.write("\n")
+        f.write(str(n_lsb))
+        f.write("\n")
+        f.write(str(rgb[:20]))
     logger.debug(f"got: n_lsb= {n_lsb}")
     # get all the meta data and file data from the bits
     logger.debug("extracting metadata from bits")
