@@ -43,7 +43,7 @@ def _seperate_filename_and_content(
 ) -> Tuple[bytes, bytes]:
     """Seperate filename and file_content by spliting on tag"""
     filename, _, content = recovered_bytes.partition(tag)
-    content = content.split(tag)[0]
+    # content = content.split(tag)[0]
     return filename, content
 
 
@@ -94,7 +94,7 @@ def build_bits_for_file(
 
 
 def extract_file_and_metadata_from_raw_bits(
-    extracted_bits: bitlist,
+    extracted_bits: str,
     encryption_key: bytes,
     hashing: bool = True,
     steg_tag: bytes = STEG_TAG,
@@ -139,4 +139,8 @@ def extract_file_and_metadata_from_raw_bits(
                 "The Filename does not seem to be correct. Try again without --no-hash"
             )
         raise e
-    return (file_hash.hex() if hashing else None, decoded_filename, decompressed)
+    return (
+        bitlist(file_hash).hex() if hashing else None,
+        decoded_filename,
+        decompressed,
+    )

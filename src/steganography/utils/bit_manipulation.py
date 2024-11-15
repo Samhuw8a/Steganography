@@ -19,7 +19,7 @@ __all__ = ["set_bit", "set_LSB", "set_lsb_bit"]
 T = TypeVar("T")
 
 
-def convert_bitlist_to_bytes(bits: bitlist) -> bytes:
+def convert_bitlist_to_bytes(bits: str) -> bytes:
     # TODO Optimize
     conv_bytes = bytes()
     total = len(bits)
@@ -27,9 +27,9 @@ def convert_bitlist_to_bytes(bits: bitlist) -> bytes:
     for b in chunked(bits, 8):
         byte = int("".join(map(str, b)), 2).to_bytes(1, "big")
         # byte = bitlist(b).to_bytes()
-        conv_bytes += byte
         if conv_bytes.count(bytes(b"[STEG]")) == 2:
             return conv_bytes
+        conv_bytes += byte
 
     # Validate that there are valid Tags
     if conv_bytes.count(bytes(b"[STEG]")) == 1:

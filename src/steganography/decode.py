@@ -15,12 +15,12 @@ from steganography.utils.pixel_manipulation import encode_image_to_rgb_and_alpha
 __all__ = ["decode_file_from_image"]
 
 
-def _get_n_lsb_from_list_of_bitlists(bits: Iterator[str], n_lsb: int) -> bitlist:
+def _get_n_lsb_from_list_of_bitlists(bits: Iterator[str], n_lsb: int) -> str:
     """Get the n LSB from a list of 8 bit values and returns the bits"""
     lsb: str = ""
     for i in bits:
         lsb += i[-n_lsb:]  # SCH***S ':'
-    return bitlist(lsb)
+    return lsb
 
 
 def _convert_int_to_bitstring(val: int) -> str:
@@ -31,7 +31,7 @@ def _convert_int_to_bitstring(val: int) -> str:
     return bin(val)[2:].zfill(8)
 
 
-def _decode_bits_from_pixels(pixels: NDArray) -> Tuple[int, bitlist]:
+def _decode_bits_from_pixels(pixels: NDArray) -> Tuple[int, str]:
     """Transforms pixels array and returns the lsb bits"""
 
     pixel_bits = (_convert_int_to_bitstring(i) for i in pixels[1:])
