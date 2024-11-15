@@ -15,29 +15,26 @@ from more_itertools import chunked
 
 __all__ = ["set_bit", "set_LSB", "set_lsb_bit"]
 
+TAG: bytes = b"[STEG]"
 
 T = TypeVar("T")
 
 
 def convert_bitlist_to_bytes(bits: str) -> bytes:
-    # TODO Optimize
     conv_bytes = bytes()
     total = len(bits)
     logger.debug(f"Get Lenth of all Bits: {total}")
     for b in chunked(bits, 8):
         byte = int("".join(map(str, b)), 2).to_bytes(1, "big")
-        # byte = bitlist(b).to_bytes()
-        if conv_bytes.count(bytes(b"[STEG]")) == 2:
-            return conv_bytes
         conv_bytes += byte
+        if conv_bytes.count(bytes(b"[STEG]")) == 2:
+            return conv_bytes.removesuffix(TAG)  # type: ignore
 
     # Validate that there are valid Tags
-    if conv_bytes.count(bytes(b"[STEG]")) == 1:
+    if conv_bytes.count(TAG) != 1:
         # If there is only one Tag, there might have been a wrong assumption on the user end
         raise FileError("The File is not decoded correctly. Try again with --no-hash")
-    else:
-        # If there are no tags the Image is not compatible with this Program
-        raise FileError("The File is not compatible with this Programm.")
+    raise FileError("An Error has occured.")
 
 
 def set_lsb_bit(pixel: int, n_lsb: int) -> int:

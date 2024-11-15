@@ -17,14 +17,16 @@ def test_compress_decompress_reversal(cont: bytes) -> None:
 @given(file=binary(), name=text(), key=binary())
 def test_build_extract_reversal(file: bytes, name: str, key: bytes) -> None:
     bits = build_bits_for_file(file, name, hash_file, key)
+    strbits = "".join(str(i) for i in bits)
     assert (hash_file(file), name, file) == extract_file_and_metadata_from_raw_bits(
-        bits, key
+        strbits, key
     )
 
 
 @given(file=binary(), name=text(), key=binary())
 def test_build_extract_reversal_no_hash(file: bytes, name: str, key: bytes) -> None:
     bits = build_bits_for_file(file, name, None, key)
+    strbits = "".join(str(i) for i in bits)
     assert (None, name, file) == extract_file_and_metadata_from_raw_bits(
-        bits, key, hashing=False
+        strbits, key, hashing=False
     )
