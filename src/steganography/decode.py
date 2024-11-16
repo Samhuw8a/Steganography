@@ -15,7 +15,7 @@ from steganography.utils.pixel_manipulation import encode_image_to_rgb_and_alpha
 __all__ = ["decode_file_from_image"]
 
 
-def _get_n_lsb_from_list_of_bitlists(bits: Iterator[str], n_lsb: int) -> str:
+def _get_n_lsb_from_list_of_bits(bits: Iterator[str], n_lsb: int) -> str:
     """Get the n LSB from a list of 8 bit values and returns the bits"""
     lsb: str = ""
     for i in bits:
@@ -34,17 +34,21 @@ def _convert_int_to_bitstring(val: int) -> str:
 def _decode_bits_from_pixels(pixels: NDArray) -> Tuple[int, str]:
     """Transforms pixels array and returns the lsb bits"""
 
+    logger.debug("converting pixel array to bitstrings")
     pixel_bits = (_convert_int_to_bitstring(i) for i in pixels[1:])
     # pixel_bits = [bitlist(int(i), length=8) for i in pixels]
 
     # Get the first 3 bits for The LSB bit's
+
+    logger.debug("reading n_lsb from first pixel")
     n_lsb_bits = _convert_int_to_bitstring(pixels[0])[-3:]
     # n_lsb_bits = pixel_bits[0][-3:].bin()
 
     n_lsb = int(n_lsb_bits, 2) + 1
 
     # get the n_lsb bits from each byte
-    lsb_bits = _get_n_lsb_from_list_of_bitlists(pixel_bits, n_lsb)
+    logger.debug("Reading LSB bits into string")
+    lsb_bits = _get_n_lsb_from_list_of_bits(pixel_bits, n_lsb)
     return (n_lsb, lsb_bits)
 
 

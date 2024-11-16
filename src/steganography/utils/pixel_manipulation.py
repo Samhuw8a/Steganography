@@ -44,7 +44,9 @@ def encode_image_to_rgb_and_alpha_array(image: Img) -> Tuple[NDArray, NDArray]:
 
     assert image.mode == "RGBA"
     # read and split RGB and Alpha pixels
+    logger.debug("Falttening Pixel array")
     pixels = np.array(image, dtype=np.ubyte).flatten()
+    logger.debug("Seperating Pixel array")
     rgb, alpha = _seperate_rgb_and_alpha(pixels)
     return (rgb, alpha)
 
