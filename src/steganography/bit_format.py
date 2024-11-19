@@ -9,7 +9,7 @@ from numpy.typing import NDArray
 from steganography._logging import logger
 from steganography.utils.bit_manipulation import convert_bitlist_to_bytes
 from steganography.utils.encryption import decrypt, encrypt
-from steganography.utils.misc import HashFunction, FileNameError, FileError
+from steganography.utils.misc import FileError, FileNameError, HashFunction
 
 __all__ = [
     "build_bits_for_file",

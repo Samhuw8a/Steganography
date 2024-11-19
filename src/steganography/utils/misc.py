@@ -1,9 +1,11 @@
 """
 Error definitions
 """
+
 from __future__ import annotations
 
 from typing import Callable, Union
+
 from bitlist import bitlist
 
 StringOrBytes = Union[str, bytes]

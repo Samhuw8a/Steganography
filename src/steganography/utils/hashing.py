@@ -1,11 +1,11 @@
 """
 A Collection of functions for hashing files and comparing hashes against files
 """
+
 from __future__ import annotations
 
 import hashlib
 from typing import Union
-
 
 StringOrBytes = Union[str, bytes]
 __all__ = ["hash_file", "validate_hash"]

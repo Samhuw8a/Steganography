@@ -1,17 +1,17 @@
 """
 A Collection of Functions regarding setting and reading LSB bits from pixel values
 """
+
 from __future__ import annotations
 
 from collections.abc import MutableSequence
-from typing import Union, TypeVar
-
-from steganography._logging import logger
-from steganography.utils.misc import FileError
+from typing import TypeVar, Union
 
 from bitlist import bitlist
 from more_itertools import chunked
 
+from steganography._logging import logger
+from steganography.utils.misc import FileError
 
 __all__ = ["set_bit", "set_LSB", "set_lsb_bit"]
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Optional, Tuple, Iterator
+from typing import Iterator, List, Optional, Tuple
 
 from bitlist import bitlist
 from numpy.typing import NDArray
