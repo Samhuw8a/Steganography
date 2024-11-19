@@ -2,14 +2,14 @@ from __future__ import annotations
 
 from argparse import ArgumentParser
 from pathlib import Path
-from steganography._logging import logger, non_verbal_conf, debug_conf, no_conf
 
+from steganography._logging import debug_conf, logger, no_conf, non_verbal_conf
 from steganography.embed_cmd import embed
 from steganography.extract_cmd import extract
 from steganography.utils.misc import (
+    ExtractionError,
     ImageModeError,
     ImageTypeError,
-    ExtractionError,
     PayloadSizeError,
 )
 

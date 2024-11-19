@@ -1,6 +1,7 @@
 """
 A Collection of functions used for encrypting and decrypting files
 """
+
 # Copied from https://stackoverflow.com/questions/42568262/how-to-encrypt-text-with-a-password-in-python
 
 from __future__ import annotations
